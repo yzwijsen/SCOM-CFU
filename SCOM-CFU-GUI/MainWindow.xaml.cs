@@ -63,7 +63,6 @@ namespace SCOM_CFU_GUI
 
         void GetManagementPacks()
         {
-
             statusText.Text = "Loading MP List...";
 
             // Get the Management Packs
