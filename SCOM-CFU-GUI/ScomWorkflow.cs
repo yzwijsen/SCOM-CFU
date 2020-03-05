@@ -5,18 +5,17 @@ using System.Text;
 
 namespace SCOM_CFU_GUI
 {
-    public enum AlertSourceType
+    public enum WorkflowType
     {
         Rule,
         Monitor
     }
 
-    public class ScomRuleMonitor
+    public class ScomWorkflow
     {
         public string Name { get; set; }
-        public string DisplayName { get; set; }
         public Guid ID { get; set; }
-        public AlertSourceType Type { get; set; }
+        public WorkflowType Type { get; set; }
 
     }
 }

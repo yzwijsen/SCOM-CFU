@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Microsoft.EnterpriseManagement;
 using Microsoft.EnterpriseManagement.Common;
 using Microsoft.EnterpriseManagement.Configuration;
+using Microsoft.EnterpriseManagement.Monitoring;
 
 namespace TestApp
 {
@@ -42,11 +43,32 @@ namespace TestApp
 
             foreach(var rule in rules)
             {
-                Console.WriteLine($"ID: {rule.Id}");
-                Console.WriteLine($"Name: {rule.DisplayName}");
-                Console.WriteLine($"Target: {rule.Target}");
+                Console.WriteLine($"Rule ID: {rule.Id}");
+                Console.WriteLine($"Rule Name: {rule.DisplayName}");
+                Console.WriteLine($"Rule Target: {rule.Target.ToString()}");
+
+                //Get GUID out of Alert Target field
+                var ruleTargetText = rule.Target.ToString();
+                var targetID = ruleTargetText.Substring(ruleTargetText.LastIndexOf('=') + 1);
+
+                //var scomClasses = mp.GetClasses();
+                //foreach (var scomClass in scomClasses)
+                //{
+                //    var scomClassID = scomClass.Id.ToString();
+                //    if(targetID == scomClassID)
+                //    {
+                //        Console.WriteLine($"Target Name: {scomClass.Name}");
+                //        Console.WriteLine($"Target DisplayName: {scomClass.DisplayName}");
+                //    }
+                //}
+                var testTargetClass = mg.EntityTypes.GetClass(Guid.Parse(targetID));
+
+                Console.WriteLine($"TEST Target Name: {testTargetClass.Name}");
+                Console.WriteLine($"TEST Target DisplayName: {testTargetClass.DisplayName}");
+
                 var mp = rule.GetManagementPack();
-                Console.WriteLine($"MP: {mp.DisplayName}");
+                Console.WriteLine($"MP ID: {mp.Id.ToString()}");
+                Console.WriteLine($"MP Name: {mp.DisplayName}");
                 Console.WriteLine("-----------------------------------------");
             }
 
@@ -55,13 +77,38 @@ namespace TestApp
 
             foreach(var monitor in monitors)
             {
-                Console.WriteLine($"ID: {monitor.Id}");
-                Console.WriteLine($"Name: {monitor.DisplayName}");
-                Console.WriteLine($"Target: {monitor.Target}");
+                Console.WriteLine($"Monitor ID: {monitor.Id}");
+                Console.WriteLine($"Monitor Name: {monitor.DisplayName}");
+                Console.WriteLine($"Target Text: {monitor.Target.ToString()}");
+
+                //Get GUID out of Alert Target field
+                var monitorTargetText = monitor.Target.ToString();
+                var targetID = monitorTargetText.Substring(monitorTargetText.LastIndexOf('=') + 1);
+
+                var testTargetClass = mg.EntityTypes.GetClass(Guid.Parse(targetID));
+
+                Console.WriteLine($"TEST Target Name: {testTargetClass.Name}");
+                Console.WriteLine($"TEST Target DisplayName: {testTargetClass.DisplayName}");
+
                 var mp = monitor.GetManagementPack();
-                Console.WriteLine($"MP: {mp.DisplayName}");
+                Console.WriteLine($"MP ID: {mp.Id}");
+                Console.WriteLine($"MP Name: {mp.DisplayName}");
                 Console.WriteLine("-----------------------------------------");
             }
+
+            //Get All Groups
+            //var test = mg.GetMonitoringClass(Guid.Parse("test"));
+            IList<MonitoringObjectGroup> scomGroups = mg.EntityObjects.GetRootObjectGroups<MonitoringObjectGroup>(ObjectQueryOptions.Default);
+
+            foreach(var scomGroup in scomGroups)
+            {
+                Console.WriteLine($"Group ID: {scomGroup.Id.ToString()}");
+                Console.WriteLine($"Group DisplayName: {scomGroup.DisplayName}");
+                Console.WriteLine($"Group Name: {scomGroup.Name}");
+                Console.WriteLine("-----------------------------------------");
+            }
+
+
 
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;

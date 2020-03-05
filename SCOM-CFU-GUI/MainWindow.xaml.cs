@@ -24,21 +24,20 @@ namespace SCOM_CFU_GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<ScomRuleMonitor> scomRulesAndMonitors = new ObservableCollection<ScomRuleMonitor>();
+        public ObservableCollection<ScomWorkflow> scomRulesAndMonitors = new ObservableCollection<ScomWorkflow>();
         public List<ScomMP> ScomMPs = new List<ScomMP>();
-
-        private ManagementGroup mg;
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        void ConnectToScom()
+        ManagementGroup ConnectToScom()
         {
             //ManagementGroup mg = new ManagementGroup("localhost");
 
             var scomHost = Properties.Settings.Default.scomHost;
+            ManagementGroup mg;
             
             try
             {
@@ -48,6 +47,7 @@ namespace SCOM_CFU_GUI
                 {
                     Debug.Write("Connection succeeded.");
                     statusText.Text = "Connected";
+                    return mg;
                 }
                 else
                 {
@@ -59,78 +59,51 @@ namespace SCOM_CFU_GUI
                 MessageBox.Show(ex.Message);
                 statusText.Text = "Failed to connect";
             }
+            return null;
         }
 
-        void GetManagementPacks()
+        void GetScomWorkflows(ManagementGroup mg)
         {
-            statusText.Text = "Loading MP List...";
+            //Get All Rules
+            IList<ManagementPackRule> rules = mg.Monitoring.GetRules();
 
-            // Get the Management Packs
-            IList<ManagementPack> managementPacks = mg.ManagementPacks.GetManagementPacks();
-
-            foreach(var mp in managementPacks)
+            foreach (var rule in rules)
             {
-                var displayName = mp.DisplayName;
-
-                //check if mp has a display name
-                if (String.IsNullOrEmpty(mp.DisplayName))
-                {
-                    displayName = mp.Name;
-                }
-
-                //if displayname is still empty we don't add this mp to the list
-                if (String.IsNullOrEmpty(displayName))
-                {
-                    return;
-                }
-
-                ScomMPs.Add(new ScomMP { DisplayName = displayName, ID = mp.Id, Name = mp.Name});
+                Console.WriteLine($"ID: {rule.Id}");
+                Console.WriteLine($"Name: {rule.DisplayName}");
+                Console.WriteLine($"Target: {rule.Target.ToString()}");
+                var mp = rule.GetManagementPack();
+                Console.WriteLine($"MP: {mp.DisplayName}");
+                Console.WriteLine("-----------------------------------------");
             }
-            ScomMPs.Sort((x, y) => x.DisplayName.CompareTo(y.DisplayName));
-            statusText.Text = "Done";
-            MPList.ItemsSource = ScomMPs;
+
+            //Get All Monitors
+            IList<ManagementPackMonitor> monitors = mg.Monitoring.GetMonitors();
+
+            foreach (var monitor in monitors)
+            {
+                Console.WriteLine($"ID: {monitor.Id}");
+                Console.WriteLine($"Name: {monitor.DisplayName}");
+                Console.WriteLine($"Target: {monitor.Target.ToString()}");
+                var mp = monitor.GetManagementPack();
+                Console.WriteLine($"MP: {mp.DisplayName}");
+                Console.WriteLine("-----------------------------------------");
+            }
         }
 
-        void GetRulesAndMonitors(Guid mpID)
+        void GetScomGroups(ManagementGroup mg)
         {
-            // Get the Management Pack.
-            string query = "Id = '" + mpID.ToString() + "'";
-            ManagementPackCriteria mpCriteria = new ManagementPackCriteria(query);
-            IList<ManagementPack> managementPacks = mg.ManagementPacks.GetManagementPacks(mpCriteria);
-            if (managementPacks.Count != 1)
-                throw new InvalidOperationException("Expected one Management Pack with " + query);
 
-            //get all the rules
-            ManagementPackElementCollection<ManagementPackRule> rules = managementPacks[0].GetRules();
-
-            if (rules.Count > 0)
-            {
-                foreach (ManagementPackRule rule in rules)
-                {
-                    scomRulesAndMonitors.Add(new ScomRuleMonitor { Name = rule.Name, DisplayName = rule.DisplayName, Type = AlertSourceType.Rule, ID = rule.Id });
-                }
-            }
-
-            //get all the monitors
-            ManagementPackElementCollection<ManagementPackMonitor> monitors = managementPacks[0].GetMonitors();
-
-            if (monitors.Count > 0)
-            {
-                foreach(ManagementPackMonitor monitor in monitors)
-                {
-                    scomRulesAndMonitors.Add(new ScomRuleMonitor { Name = monitor.Name, DisplayName = monitor.DisplayName, Type = AlertSourceType.Monitor, ID = monitor.Id });
-                }
-            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             statusText.Text = "Connecting...";
-            ConnectToScom();
+            var mg = ConnectToScom();
 
             if (mg != null)
             {
-                GetManagementPacks();
+                GetScomWorkflows(mg);
             }
         }
 
@@ -159,7 +132,7 @@ namespace SCOM_CFU_GUI
                 return;
             }
 
-            txtDisplayName.Text = scomRulesAndMonitors[AlertList.SelectedIndex].DisplayName;
+            txtDisplayName.Text = scomRulesAndMonitors[AlertList.SelectedIndex].Name;
             txtName.Text = scomRulesAndMonitors[AlertList.SelectedIndex].Name;
             txtId.Text = scomRulesAndMonitors[AlertList.SelectedIndex].ID.ToString();
         }
