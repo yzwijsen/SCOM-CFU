@@ -51,20 +51,10 @@ namespace TestApp
                 var ruleTargetText = rule.Target.ToString();
                 var targetID = ruleTargetText.Substring(ruleTargetText.LastIndexOf('=') + 1);
 
-                //var scomClasses = mp.GetClasses();
-                //foreach (var scomClass in scomClasses)
-                //{
-                //    var scomClassID = scomClass.Id.ToString();
-                //    if(targetID == scomClassID)
-                //    {
-                //        Console.WriteLine($"Target Name: {scomClass.Name}");
-                //        Console.WriteLine($"Target DisplayName: {scomClass.DisplayName}");
-                //    }
-                //}
                 var testTargetClass = mg.EntityTypes.GetClass(Guid.Parse(targetID));
 
-                Console.WriteLine($"TEST Target Name: {testTargetClass.Name}");
-                Console.WriteLine($"TEST Target DisplayName: {testTargetClass.DisplayName}");
+                Console.WriteLine($"Target ID: {targetID}");
+                Console.WriteLine($"Target Name: {testTargetClass.DisplayName}");
 
                 var mp = rule.GetManagementPack();
                 Console.WriteLine($"MP ID: {mp.Id.ToString()}");
@@ -87,8 +77,8 @@ namespace TestApp
 
                 var testTargetClass = mg.EntityTypes.GetClass(Guid.Parse(targetID));
 
-                Console.WriteLine($"TEST Target Name: {testTargetClass.Name}");
-                Console.WriteLine($"TEST Target DisplayName: {testTargetClass.DisplayName}");
+                Console.WriteLine($"Target ID: {targetID}");
+                Console.WriteLine($"Target Name: {testTargetClass.DisplayName}");
 
                 var mp = monitor.GetManagementPack();
                 Console.WriteLine($"MP ID: {mp.Id}");
@@ -104,7 +94,6 @@ namespace TestApp
             {
                 Console.WriteLine($"Group ID: {scomGroup.Id.ToString()}");
                 Console.WriteLine($"Group DisplayName: {scomGroup.DisplayName}");
-                Console.WriteLine($"Group Name: {scomGroup.Name}");
                 Console.WriteLine("-----------------------------------------");
             }
 
@@ -123,6 +112,7 @@ namespace TestApp
             Console.WriteLine("-----------------------------------------");
             Console.WriteLine($"Found {rules.Count} rule(s)");
             Console.WriteLine($"Found {monitors.Count} monitor(s)");
+            Console.WriteLine($"Found {scomGroups.Count} group(s)");
             Console.WriteLine("-----------------------------------------");
 
             Console.WriteLine("Done. Press Enter to close...");

@@ -9,6 +9,6 @@ namespace SCOM_CFU_GUI
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public List<ScomTarget> ScomTargets { get; set; }
+        public Dictionary<Guid, ScomTarget> ScomTargets { get; set; }
     }
 }

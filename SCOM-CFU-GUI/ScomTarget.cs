@@ -9,6 +9,6 @@ namespace SCOM_CFU_GUI
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public List<ScomMP> ScomMPs { get; set; }
+        public Dictionary<Guid, ScomWorkflow> ScomWorkflows { get; set; }
     }
 }
