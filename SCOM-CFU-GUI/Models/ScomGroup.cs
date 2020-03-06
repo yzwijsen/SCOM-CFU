@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SCOM_CFU_GUI
+namespace SCOM_CFU_GUI.Models
 {
-    public class ScomTarget
+    public class ScomGroup
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public Dictionary<Guid, ScomWorkflow> ScomWorkflows { get; set; }
     }
 }
