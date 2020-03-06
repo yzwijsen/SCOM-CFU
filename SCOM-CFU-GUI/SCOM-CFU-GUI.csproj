@@ -58,10 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ScomGroup.cs" />
-    <Compile Include="ScomMP.cs" />
-    <Compile Include="ScomTarget.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Models\ScomGroup.cs" />
+    <Compile Include="Models\ScomMP.cs" />
+    <Compile Include="Models\ScomTarget.cs" />
+    <Compile Include="Models\ScomFlatWorkflow.cs" />
+    <Compile Include="ViewModels\ScomDataViewModel.cs" />
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -69,8 +71,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScomWorkflow.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Models\ScomWorkflow.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -100,5 +102,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

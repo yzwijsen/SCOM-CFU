@@ -34,14 +34,14 @@ namespace SCOM_CFU_GUI.ViewModels
             var targetID = Guid.Parse(targetText.Substring(targetText.LastIndexOf('=') + 1));
 
             //get target class
-            var targetClass = mg.EntityTypes.GetClass(targetID);
+            var target = mg.EntityTypes.GetClass(targetID);
 
             var workflowItem = new ScomFlatWorkflow
             {
                 ID = id,
                 Name = name,
-                TargetID = targetClass.Id,
-                TargetName = targetClass.DisplayName,
+                TargetID = target.Id,
+                TargetName = target.DisplayName,
                 MPID = mp.Id,
                 MPName = mp.DisplayName
             };
@@ -97,12 +97,15 @@ namespace SCOM_CFU_GUI.ViewModels
         private void InitializeScomDataGathering()
         {
             appStatus = "Connecting...";
-            var connected = ConnectToScom();
-
-            if (connected)
+            if (ConnectToScom())
             {
+                appStatus = "Connected";
                 GetScomWorkflows();
                 GetScomGroups();
+            }
+            else
+            {
+                appStatus = "Failed to connect.";
             }
         }
 
@@ -116,8 +119,6 @@ namespace SCOM_CFU_GUI.ViewModels
 
                 if (mg.IsConnected)
                 {
-                    Debug.Write("Connection succeeded.");
-                    appStatus = "Connected";
                     return true;
                 }
                 else
@@ -127,7 +128,6 @@ namespace SCOM_CFU_GUI.ViewModels
             }
             catch (Exception ex)
             {
-                appStatus = "Failed to connect";
                 MessageBox.Show(ex.Message);
             }
             return false;
