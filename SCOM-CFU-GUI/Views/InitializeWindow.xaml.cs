@@ -20,7 +20,6 @@ namespace SCOM_CFU_GUI.Views
     public partial class InitializeWindow : Window
     {
 
-        private ScomDataViewModel viewModel;
         public InitializeWindow()
         {
             InitializeComponent();

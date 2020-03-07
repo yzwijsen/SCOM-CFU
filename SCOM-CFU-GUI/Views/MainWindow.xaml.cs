@@ -12,5 +12,11 @@ namespace SCOM_CFU_GUI.Views
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var initWindow = new InitializeWindow();
+            initWindow.ShowDialog();
+        }
     }
 }

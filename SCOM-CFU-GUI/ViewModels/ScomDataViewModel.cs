@@ -22,9 +22,48 @@ namespace SCOM_CFU_GUI.ViewModels
         private List<ScomFlatWorkflow> scomFlatWorkflows;
         private ManagementGroup mg;
 
-        public string InitStatus { get; private set; }
+        #region Properties
 
-        private InitializeWindow iw;
+        private bool isProgressbarVisible;
+        public bool IsProgressbarVisible
+        {
+            get
+            {
+                return isProgressbarVisible;
+            }
+            set
+            {
+                isProgressbarVisible = value;
+                OnPropertyChanged("IsProgressBarVisible");
+            }
+        }
+        private bool isConnectActionAvailable = true;
+        public bool IsConnectActionAvailable
+        {
+            get
+            {
+                return isConnectActionAvailable;
+            }
+            set
+            {
+                isConnectActionAvailable = value;
+                OnPropertyChanged("IsConnectActionAvailable");
+            }
+        }
+
+        private string initStatus;
+        public string InitStatus
+        {
+            get
+            {
+                return initStatus;
+            }
+            set
+            {
+                initStatus = value;
+                OnPropertyChanged("InitStatus");
+            }
+        }
 
 
         public string ScomHostname
@@ -41,11 +80,12 @@ namespace SCOM_CFU_GUI.ViewModels
                 OnPropertyChanged("ScomHostname");
             }
         }
+        #endregion
 
         public ScomDataViewModel()
         {
-            iw = new InitializeWindow();
-            iw.ShowDialog();
+            //iw = new InitializeWindow();
+            //iw.ShowDialog();
         }
 
         ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, string targetText, ManagementPack mp)
@@ -116,8 +156,8 @@ namespace SCOM_CFU_GUI.ViewModels
 
         public void InitializeScomDataGathering()
         {
-            ScomHostname = iw.hostnameTextBox.Text;
-
+            IsConnectActionAvailable = false;
+            IsProgressbarVisible = true;
             InitStatus = "Connecting...";
             if (ConnectToScom())
             {
