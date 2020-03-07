@@ -46,9 +46,6 @@ namespace SCOM_CFU_GUI.ViewModels
         {
             iw = new InitializeWindow();
             iw.ShowDialog();
-            iw.DataContext = this;
-            iw.hostnameTextBox.Text = ScomHostname;
-            iw.connectButton.Command = this.ScomConnectCommand;
         }
 
         ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, string targetText, ManagementPack mp)

@@ -2,8 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SCOM_CFU_GUI"
+			 xmlns:vm="clr-namespace:SCOM_CFU_GUI.ViewModels"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+		<vm:ScomDataViewModel x:Key="scomDataViewModel"/>
+	</Application.Resources>
 </Application>
