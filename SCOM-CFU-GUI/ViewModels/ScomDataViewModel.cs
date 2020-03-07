@@ -160,18 +160,36 @@ namespace SCOM_CFU_GUI.ViewModels
             IsConnectActionAvailable = false;
             IsProgressbarVisible = true;
 
-            
             InitStatus = "Connecting...";
-            if (ConnectToScom())
+            ConnectToScom();
+            if (mg == null)
             {
-                InitStatus = "Connected";
-                GetScomWorkflows();
-                GetScomGroups();
+                InitStatus = "Failed to Connect";
+                IsConnectActionAvailable = true;
+                IsProgressbarVisible = false;
+                return;
             }
-            else
-            {
-                InitStatus = "Failed to connect.";
-            }
+
+            InitStatus = "Getting SCOM workflows...";
+            GetScomWorkflows();
+
+            InitStatus = "Getting SCOM Groups...";
+            GetScomGroups();
+
+            InitStatus = "Ordering data...";
+            //build hierarchical data out of flat workflow data
+
+            //InitStatus = "Connecting...";
+            //if (ConnectToScom())
+            //{
+            //    InitStatus = "Connected";
+            //    GetScomWorkflows();
+            //    GetScomGroups();
+            //}
+            //else
+            //{
+            //    InitStatus = "Failed to connect.";
+            //}
         }
 
         bool ConnectToScom()
