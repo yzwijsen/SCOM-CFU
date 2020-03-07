@@ -23,12 +23,15 @@ namespace SCOM_CFU_GUI.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
         public string scomHost {
             get {
                 return ((string)(this["scomHost"]));
+            }
+            set {
+                this["scomHost"] = value;
             }
         }
     }

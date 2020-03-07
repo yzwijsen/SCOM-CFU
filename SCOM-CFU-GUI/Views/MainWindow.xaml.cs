@@ -11,7 +11,11 @@ namespace SCOM_CFU_GUI.Views
         public MainWindow()
         {
             InitializeComponent();
-            //var mv = new ScomDataViewModel();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mv = new ScomDataViewModel();
         }
     }
 }

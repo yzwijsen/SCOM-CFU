@@ -5,27 +5,50 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Input;
 using Microsoft.EnterpriseManagement;
 using Microsoft.EnterpriseManagement.Common;
 using Microsoft.EnterpriseManagement.Configuration;
 using Microsoft.EnterpriseManagement.Monitoring;
 using SCOM_CFU_GUI.Models;
+using SCOM_CFU_GUI.Views;
 
 namespace SCOM_CFU_GUI.ViewModels
 {
-    class ScomDataViewModel
+    class ScomDataViewModel : ViewModelBase
     {
         private List<ScomMP> scomMPs;
         private List<ScomGroup> scomGroups;
         private List<ScomFlatWorkflow> scomFlatWorkflows;
         private ManagementGroup mg;
 
-        private string appStatus;
+        public string InitStatus { get; private set; }
 
+        private InitializeWindow iw;
+
+
+        public string ScomHostname
+        {
+            get
+            {
+                return Properties.Settings.Default.scomHost;
+            }
+
+            set
+            {
+                Properties.Settings.Default.scomHost = value;
+                Properties.Settings.Default.Save();
+                OnPropertyChanged("ScomHostname");
+            }
+        }
 
         public ScomDataViewModel()
         {
-            InitializeScomDataGathering();
+            iw = new InitializeWindow();
+            iw.ShowDialog();
+            iw.DataContext = this;
+            iw.hostnameTextBox.Text = ScomHostname;
+            iw.connectButton.Command = this.ScomConnectCommand;
         }
 
         ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, string targetText, ManagementPack mp)
@@ -94,28 +117,28 @@ namespace SCOM_CFU_GUI.ViewModels
             }
         }
 
-        private void InitializeScomDataGathering()
+        public void InitializeScomDataGathering()
         {
-            appStatus = "Connecting...";
+            ScomHostname = iw.hostnameTextBox.Text;
+
+            InitStatus = "Connecting...";
             if (ConnectToScom())
             {
-                appStatus = "Connected";
+                InitStatus = "Connected";
                 GetScomWorkflows();
                 GetScomGroups();
             }
             else
             {
-                appStatus = "Failed to connect.";
+                InitStatus = "Failed to connect.";
             }
         }
 
         bool ConnectToScom()
         {
-            var scomHost = Properties.Settings.Default.scomHost;
-
             try
             {
-                mg = ManagementGroup.Connect(scomHost);
+                mg = ManagementGroup.Connect(ScomHostname);
 
                 if (mg.IsConnected)
                 {
@@ -132,6 +155,27 @@ namespace SCOM_CFU_GUI.ViewModels
             }
             return false;
         }
+
+        #region ScomConnectCommand
+
+        private ICommand scomConnectCommand;
+        public ICommand ScomConnectCommand
+        {
+            get
+            {
+                if (scomConnectCommand == null)
+                {
+                    scomConnectCommand = new ScomConnectCommand(this);
+                }
+                return scomConnectCommand;
+            }
+            set
+            {
+                scomConnectCommand = value;
+            }
+        }
+
+        #endregion
 
     }
 }
