@@ -13,6 +13,7 @@ namespace SCOM_CFU_GUI.Models
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
+        public WorkflowType Type { get; set; }
         public Guid TargetID { get; set; }
         public string TargetName { get; set; }
         public Guid MPID { get; set; }

@@ -5,12 +5,6 @@ using System.Text;
 
 namespace SCOM_CFU_GUI.Models
 {
-    public enum WorkflowType
-    {
-        Rule,
-        Monitor
-    }
-
     public class ScomWorkflow
     {
         public string Name { get; set; }

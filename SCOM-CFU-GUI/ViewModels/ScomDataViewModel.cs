@@ -88,7 +88,7 @@ namespace SCOM_CFU_GUI.ViewModels
             //iw.ShowDialog();
         }
 
-        ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, string targetText, ManagementPack mp)
+        ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, WorkflowType type, string targetText, ManagementPack mp)
         {
             //Get GUID out of Alert Target field
             var targetID = Guid.Parse(targetText.Substring(targetText.LastIndexOf('=') + 1));
@@ -100,6 +100,7 @@ namespace SCOM_CFU_GUI.ViewModels
             {
                 ID = id,
                 Name = name,
+                Type = type,
                 TargetID = target.Id,
                 TargetName = target.DisplayName,
                 MPID = mp.Id,
@@ -121,7 +122,7 @@ namespace SCOM_CFU_GUI.ViewModels
                 var mp = scomRule.GetManagementPack();
 
                 //Gather additional data and create workflow item
-                var workflowItem = CreateFlatWorkflowItem(scomRule.Id, scomRule.DisplayName, scomRule.Target.ToString(), mp);
+                var workflowItem = CreateFlatWorkflowItem(scomRule.Id, scomRule.DisplayName, WorkflowType.Rule, scomRule.Target.ToString(), mp);
 
                 //add the item to our list
                 scomFlatWorkflows.Add(workflowItem);
@@ -136,7 +137,7 @@ namespace SCOM_CFU_GUI.ViewModels
                 var mp = scomMonitor.GetManagementPack();
 
                 //Gather additional data and create workflow item
-                var workflowItem = CreateFlatWorkflowItem(scomMonitor.Id, scomMonitor.DisplayName, scomMonitor.Target.ToString(), mp);
+                var workflowItem = CreateFlatWorkflowItem(scomMonitor.Id, scomMonitor.DisplayName, WorkflowType.Monitor, scomMonitor.Target.ToString(), mp);
 
                 //add the item to our list
                 scomFlatWorkflows.Add(workflowItem);
@@ -158,6 +159,8 @@ namespace SCOM_CFU_GUI.ViewModels
         {
             IsConnectActionAvailable = false;
             IsProgressbarVisible = true;
+
+            
             InitStatus = "Connecting...";
             if (ConnectToScom())
             {
