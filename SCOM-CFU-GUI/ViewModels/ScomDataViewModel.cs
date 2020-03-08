@@ -22,6 +22,8 @@ namespace SCOM_CFU_GUI.ViewModels
         private List<ScomGroup> scomGroups;
         private ManagementGroup mg;
 
+        public event EventHandler DataInitCompleted;
+
         #region Properties
 
         private ObservableCollection<ScomFlatWorkflow> scomFlatWorkflows;
@@ -94,6 +96,7 @@ namespace SCOM_CFU_GUI.ViewModels
         #endregion
 
 
+
         public async Task InitializeScomDataGathering()
         {
             IsConnectActionAvailable = false;
@@ -120,6 +123,8 @@ namespace SCOM_CFU_GUI.ViewModels
 
             InitStatus = "Finished";
             IsInitActionInProgress = false;
+
+            OnDataInitCompleted();
         }
 
         async Task GetScomWorkflows()
@@ -188,18 +193,31 @@ namespace SCOM_CFU_GUI.ViewModels
 
         async Task ConnectToScom()
         {
-            try
+
+            await Task.Run(() =>
             {
-                mg = await Task.Run(() => ManagementGroup.Connect(ScomHostname));
-                //NEED TO HANDLE EXCEPTION
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error");
-            }
+                try
+                {
+                    mg = ManagementGroup.Connect(ScomHostname);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            });
+           
         }
 
-        #region ScomConnectCommand
+        #region Events / Commands
+
+        void OnDataInitCompleted()
+        {
+            EventHandler handler = this.DataInitCompleted;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
 
         private ICommand scomConnectCommand;
         public ICommand ScomConnectCommand

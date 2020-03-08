@@ -19,10 +19,12 @@ namespace SCOM_CFU_GUI.Views
     /// </summary>
     public partial class InitializeWindow : Window
     {
-
         public InitializeWindow()
         {
             InitializeComponent();
+
+            var vm = Application.Current.Resources["scomDataViewModel"] as ScomDataViewModel;
+            vm.DataInitCompleted += (s, e) => this.Close();
         }
     }
 }

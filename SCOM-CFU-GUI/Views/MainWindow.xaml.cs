@@ -16,6 +16,7 @@ namespace SCOM_CFU_GUI.Views
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var initWindow = new InitializeWindow();
+            initWindow.Owner = this;
             initWindow.ShowDialog();
         }
     }
