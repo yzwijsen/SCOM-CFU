@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,7 +25,13 @@ namespace SCOM_CFU_GUI.Views
             InitializeComponent();
 
             var vm = Application.Current.Resources["scomDataViewModel"] as ScomDataViewModel;
-            vm.DataInitCompleted += (s, e) => this.Close();
+            vm.DataInitCompleted += (s, e) => CloseWindowDelayed();
+        }
+
+        async Task CloseWindowDelayed()
+        {
+            await Task.Delay(2000);
+            this.Close();
         }
     }
 }
