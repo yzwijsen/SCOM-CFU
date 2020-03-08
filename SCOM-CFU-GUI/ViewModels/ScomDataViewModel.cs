@@ -112,8 +112,11 @@ namespace SCOM_CFU_GUI.ViewModels
                 return;
             }
 
-            InitStatus = "Getting SCOM workflows...";
-            await GetScomWorkflows();
+            InitStatus = "Getting SCOM Rules...";
+            await GetScomRules();
+
+            InitStatus = "Getting SCOM Monitors...";
+            await GetScomMonitors();
 
             InitStatus = "Getting SCOM Groups...";
             await GetScomGroups();
@@ -127,7 +130,7 @@ namespace SCOM_CFU_GUI.ViewModels
             OnDataInitCompleted();
         }
 
-        async Task GetScomWorkflows()
+        async Task GetScomRules()
         {
             //make sure we start with an empty list
             ScomFlatWorkflows = new ObservableCollection<ScomFlatWorkflow>();
@@ -146,7 +149,10 @@ namespace SCOM_CFU_GUI.ViewModels
                 //add the item to our list
                 ScomFlatWorkflows.Add(workflowItem);
             }
+        }
 
+        async Task GetScomMonitors()
+        {
             //Get All Monitors
             IList<ManagementPackMonitor> scomMonitors = await Task.Run(() => mg.Monitoring.GetMonitors());
 

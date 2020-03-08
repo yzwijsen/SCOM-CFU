@@ -18,7 +18,7 @@
 				<Button Content="Connect" Width="50" x:Name="connectButton" Command="{Binding ScomConnectCommand}" IsEnabled="{Binding IsConnectActionAvailable}"/>
 			</StackPanel>
 			<StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-						<ProgressBar x:Name="initProgressBar" Height="20" Width="250" IsIndeterminate="True" Visibility="{Binding IsInitActionInProgress, Converter={StaticResource booleanToVisibileHiddenConverter}}"/>
+						<ProgressBar x:Name="initProgressBar" Height="20" MinWidth="250" IsIndeterminate="True" Visibility="{Binding IsInitActionInProgress, Converter={StaticResource booleanToVisibileHiddenConverter}}"/>
 				<TextBlock x:Name="initStatusText" Text="{Binding InitStatus}"/>
 			</StackPanel>
 		</StackPanel>
