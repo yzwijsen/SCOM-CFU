@@ -14,7 +14,7 @@
 			</Grid.RowDefinitions>
 			<TabControl Grid.Row="0">
 				<TabItem Header="Alerts">
-					<Grid>
+					<Grid DataContext="{StaticResource scomDataViewModel}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
@@ -24,7 +24,13 @@
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						
+						<ListBox Grid.ColumnSpan="3" Grid.RowSpan="2" ItemsSource="{Binding ScomFlatWorkflows}">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Name}"/>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
 					</Grid>
 				</TabItem>
 				<TabItem Header="CF Data Sets">

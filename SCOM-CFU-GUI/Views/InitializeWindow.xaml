@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="InitializeWindow" Height="150" Width="300" ResizeMode="NoResize">
 	<Window.Resources>
-		<BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+		<BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+		<local:BooleanToVisibileHiddenConverter x:Key="booleanToVisibileHiddenConverter"/>
 	</Window.Resources>
 	<Grid DataContext="{StaticResource scomDataViewModel}">
 		<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -17,7 +18,7 @@
 				<Button Content="Connect" Width="50" x:Name="connectButton" Command="{Binding ScomConnectCommand}" IsEnabled="{Binding IsConnectActionAvailable}"/>
 			</StackPanel>
 			<StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-				<ProgressBar x:Name="initProgressBar" Height="20" Width="250" IsIndeterminate="True" Visibility="{Binding IsProgressbarVisible, Converter={StaticResource VisibleIfTrueConverter}}"/>
+						<ProgressBar x:Name="initProgressBar" Height="20" Width="250" IsIndeterminate="True" Visibility="{Binding IsInitActionInProgress, Converter={StaticResource booleanToVisibileHiddenConverter}}"/>
 				<TextBlock x:Name="initStatusText" Text="{Binding InitStatus}"/>
 			</StackPanel>
 		</StackPanel>

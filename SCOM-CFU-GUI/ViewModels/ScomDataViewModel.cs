@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.EnterpriseManagement;
@@ -17,24 +18,34 @@ namespace SCOM_CFU_GUI.ViewModels
 {
     class ScomDataViewModel : ViewModelBase
     {
-        private List<ScomMP> scomMPs;
+        //private List<ScomMP> scomMPs;
         private List<ScomGroup> scomGroups;
-        private List<ScomFlatWorkflow> scomFlatWorkflows;
         private ManagementGroup mg;
 
         #region Properties
 
-        private bool isProgressbarVisible;
-        public bool IsProgressbarVisible
+        private ObservableCollection<ScomFlatWorkflow> scomFlatWorkflows;
+        public ObservableCollection<ScomFlatWorkflow> ScomFlatWorkflows
+        {
+            get { return scomFlatWorkflows; }
+            set
+            {
+                scomFlatWorkflows = value;
+                OnPropertyChanged("ScomFlatWorkflows");
+            }
+        }
+
+        private bool isInitActionInProgress;
+        public bool IsInitActionInProgress
         {
             get
             {
-                return isProgressbarVisible;
+                return isInitActionInProgress;
             }
             set
             {
-                isProgressbarVisible = value;
-                OnPropertyChanged("IsProgressBarVisible");
+                isInitActionInProgress = value;
+                OnPropertyChanged("IsInitActionInProgress");
             }
         }
         private bool isConnectActionAvailable = true;
@@ -82,39 +93,42 @@ namespace SCOM_CFU_GUI.ViewModels
         }
         #endregion
 
-        public ScomDataViewModel()
+
+        public async Task InitializeScomDataGathering()
         {
-            //iw = new InitializeWindow();
-            //iw.ShowDialog();
-        }
+            IsConnectActionAvailable = false;
+            IsInitActionInProgress = true;
 
-        ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, WorkflowType type, string targetText, ManagementPack mp)
-        {
-            //Get GUID out of Alert Target field
-            var targetID = Guid.Parse(targetText.Substring(targetText.LastIndexOf('=') + 1));
-
-            //get target class
-            var target = mg.EntityTypes.GetClass(targetID);
-
-            var workflowItem = new ScomFlatWorkflow
+            InitStatus = $"Connecting to {ScomHostname} ...";
+            await ConnectToScom();
+            if (mg == null || !mg.IsConnected)
             {
-                ID = id,
-                Name = name,
-                Type = type,
-                TargetID = target.Id,
-                TargetName = target.DisplayName,
-                MPID = mp.Id,
-                MPName = mp.DisplayName
-            };
+                InitStatus = "Failed to Connect";
+                IsConnectActionAvailable = true;
+                IsInitActionInProgress = false;
+                return;
+            }
 
-            return workflowItem;
+            InitStatus = "Getting SCOM workflows...";
+            await GetScomWorkflows();
+
+            InitStatus = "Getting SCOM Groups...";
+            await GetScomGroups();
+
+            InitStatus = "Ordering data...";
+            //build hierarchical data out of flat workflow data
+
+            InitStatus = "Finished";
+            IsInitActionInProgress = false;
         }
 
-        void GetScomWorkflows()
+        async Task GetScomWorkflows()
         {
+            //make sure we start with an empty list
+            ScomFlatWorkflows = new ObservableCollection<ScomFlatWorkflow>();
+
             //Get All Rules
-            IList<ManagementPackRule> scomRules = mg.Monitoring.GetRules();
-            scomFlatWorkflows = new List<ScomFlatWorkflow>();
+            IList<ManagementPackRule> scomRules = await Task.Run(() => mg.Monitoring.GetRules());
 
             foreach (var scomRule in scomRules)
             {
@@ -125,11 +139,11 @@ namespace SCOM_CFU_GUI.ViewModels
                 var workflowItem = CreateFlatWorkflowItem(scomRule.Id, scomRule.DisplayName, WorkflowType.Rule, scomRule.Target.ToString(), mp);
 
                 //add the item to our list
-                scomFlatWorkflows.Add(workflowItem);
+                ScomFlatWorkflows.Add(workflowItem);
             }
 
             //Get All Monitors
-            IList<ManagementPackMonitor> scomMonitors = mg.Monitoring.GetMonitors();
+            IList<ManagementPackMonitor> scomMonitors = await Task.Run(() => mg.Monitoring.GetMonitors());
 
             foreach (var scomMonitor in scomMonitors)
             {
@@ -140,78 +154,49 @@ namespace SCOM_CFU_GUI.ViewModels
                 var workflowItem = CreateFlatWorkflowItem(scomMonitor.Id, scomMonitor.DisplayName, WorkflowType.Monitor, scomMonitor.Target.ToString(), mp);
 
                 //add the item to our list
-                scomFlatWorkflows.Add(workflowItem);
+                ScomFlatWorkflows.Add(workflowItem);
             }
         }
 
-        void GetScomGroups()
+        ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, WorkflowType type, string targetText, ManagementPack mp)
         {
+            //Get GUID out of Alert Target field
+            var targetID = Guid.Parse(targetText.Substring(targetText.LastIndexOf('=') + 1));
+
+            //get target class
+            var target = mg.EntityTypes.GetClass(targetID);
+
+            var workflowItem = new ScomFlatWorkflow(id, name, type, target.Id, target.DisplayName, mp.Id, mp.DisplayName);
+
+            return workflowItem;
+        }
+
+        async Task GetScomGroups()
+        {
+            //make sure we start with an empty list
+            scomGroups = new List<ScomGroup>();
+
             //Get All Groups
-            IList<MonitoringObjectGroup> groups = mg.EntityObjects.GetRootObjectGroups<MonitoringObjectGroup>(ObjectQueryOptions.Default);
+            IList<MonitoringObjectGroup> groups = await Task.Run(() => mg.EntityObjects.GetRootObjectGroups<MonitoringObjectGroup>(ObjectQueryOptions.Default));
 
             foreach (var group in groups)
             {
-                scomGroups.Add(new ScomGroup { ID = group.Id, Name = group.DisplayName });
+                scomGroups.Add(new ScomGroup(group.Id, group.DisplayName));
             }
         }
 
-        public void InitializeScomDataGathering()
-        {
-            IsConnectActionAvailable = false;
-            IsProgressbarVisible = true;
 
-            InitStatus = "Connecting...";
-            ConnectToScom();
-            if (mg == null)
-            {
-                InitStatus = "Failed to Connect";
-                IsConnectActionAvailable = true;
-                IsProgressbarVisible = false;
-                return;
-            }
-
-            InitStatus = "Getting SCOM workflows...";
-            GetScomWorkflows();
-
-            InitStatus = "Getting SCOM Groups...";
-            GetScomGroups();
-
-            InitStatus = "Ordering data...";
-            //build hierarchical data out of flat workflow data
-
-            //InitStatus = "Connecting...";
-            //if (ConnectToScom())
-            //{
-            //    InitStatus = "Connected";
-            //    GetScomWorkflows();
-            //    GetScomGroups();
-            //}
-            //else
-            //{
-            //    InitStatus = "Failed to connect.";
-            //}
-        }
-
-        bool ConnectToScom()
+        async Task ConnectToScom()
         {
             try
             {
-                mg = ManagementGroup.Connect(ScomHostname);
-
-                if (mg.IsConnected)
-                {
-                    return true;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Unable to connect");
-                }
+                mg = await Task.Run(() => ManagementGroup.Connect(ScomHostname));
+                //NEED TO HANDLE EXCEPTION
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error");
             }
-            return false;
         }
 
         #region ScomConnectCommand
