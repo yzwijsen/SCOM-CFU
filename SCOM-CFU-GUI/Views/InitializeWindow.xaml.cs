@@ -1,6 +1,7 @@
 ﻿using SCOM_CFU_GUI.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace SCOM_CFU_GUI.Views
     /// </summary>
     public partial class InitializeWindow : Window
     {
+
+        private bool isDataInitCompleted;
+
         public InitializeWindow()
         {
             InitializeComponent();
@@ -30,8 +34,15 @@ namespace SCOM_CFU_GUI.Views
 
         async Task CloseWindowDelayed()
         {
+            isDataInitCompleted = true;
             await Task.Delay(2000);
             this.Close();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+             if (!isDataInitCompleted) Application.Current.Shutdown();
         }
     }
 }
