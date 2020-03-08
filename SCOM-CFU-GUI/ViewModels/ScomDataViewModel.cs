@@ -122,12 +122,17 @@ namespace SCOM_CFU_GUI.ViewModels
             await GetScomGroups();
 
             InitStatus = "Ordering data...";
-            //build hierarchical data out of flat workflow data
+            BuildHierarchicalScomData();
 
             InitStatus = "Finished";
             IsInitActionInProgress = false;
 
             OnDataInitCompleted();
+        }
+
+        async Task BuildHierarchicalScomData()
+        {
+
         }
 
         async Task GetScomRules()

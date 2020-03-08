@@ -24,13 +24,23 @@
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						<ListBox Grid.ColumnSpan="3" Grid.RowSpan="2" ItemsSource="{Binding ScomFlatWorkflows}">
-							<ListBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Name}"/>
-								</DataTemplate>
-							</ListBox.ItemTemplate>
-						</ListBox>
+						<GroupBox Header="Management Packs" Grid.RowSpan="2">
+							<TreeView>
+								
+							</TreeView>
+						</GroupBox>
+						<GroupBox Header="Rules and Monitors" Grid.Column="1" Grid.ColumnSpan="2">
+							<ListBox ItemsSource="{Binding ScomFlatWorkflows}">
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Name}"/>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+						</GroupBox>
+						<GroupBox Header="CustomField Data" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+							
+						</GroupBox>
 					</Grid>
 				</TabItem>
 				<TabItem Header="CF Data Sets">
