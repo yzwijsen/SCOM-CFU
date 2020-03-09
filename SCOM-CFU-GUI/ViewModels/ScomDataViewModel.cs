@@ -186,8 +186,8 @@ namespace SCOM_CFU_GUI.ViewModels
             //query and group flat workflow items by management pack
             var queryMp =
                 from workflow in ScomFlatWorkflows
-                group workflow by new { workflow.MpId, workflow.MpName} into g
-                orderby g.Key
+                group workflow by new { workflow.MpId, workflow.MpName } into g
+                orderby g.Key.MpId
                 select g;
 
             try
@@ -200,7 +200,7 @@ namespace SCOM_CFU_GUI.ViewModels
                     var queryTarget =
                         from item in mpGroup
                         group item by new { item.TargetId, item.TargetName } into g
-                        orderby g.Key
+                        orderby g.Key.TargetId
                         select g;
 
                     var targetObservableCollection = new ObservableCollection<ScomTarget>();
@@ -219,7 +219,7 @@ namespace SCOM_CFU_GUI.ViewModels
                     }
 
                     //MP level
-                    scomMPs.Add(new ScomMP(mpGroup.Key.MpId, mpGroup.Key.MpName, targetObservableCollection));
+                    ScomMPs.Add(new ScomMP(mpGroup.Key.MpId, mpGroup.Key.MpName, targetObservableCollection));
                 }
             }
             catch (Exception ex)
