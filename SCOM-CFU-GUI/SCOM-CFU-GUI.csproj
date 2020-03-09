@@ -65,7 +65,7 @@
     <Compile Include="Models\ScomTarget.cs" />
     <Compile Include="Models\ScomFlatWorkflow.cs" />
     <Compile Include="Models\WorkflowType.cs" />
-    <Compile Include="ViewModels\ScomConnectCommand.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ScomDataViewModel.cs" />
     <Page Include="Views\InitializeWindow.xaml">
       <SubType>Designer</SubType>

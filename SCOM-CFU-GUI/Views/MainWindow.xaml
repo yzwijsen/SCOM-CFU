@@ -26,7 +26,11 @@
 						</Grid.ColumnDefinitions>
 						<GroupBox Header="Management Packs" Grid.RowSpan="2">
 							<TreeView>
-								
+								<TreeView.ItemTemplate>
+									<HierarchicalDataTemplate ItemsSource="{Binding ScomMPs}">
+										<TextBlock Text="{Binding Name}"/>
+									</HierarchicalDataTemplate>
+								</TreeView.ItemTemplate>
 							</TreeView>
 						</GroupBox>
 						<GroupBox Header="Rules and Monitors" Grid.Column="1" Grid.ColumnSpan="2">

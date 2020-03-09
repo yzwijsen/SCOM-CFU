@@ -18,13 +18,32 @@ namespace SCOM_CFU_GUI.ViewModels
 {
     class ScomDataViewModel : ViewModelBase
     {
-        //private List<ScomMP> scomMPs;
-        private List<ScomGroup> scomGroups;
+        
         private ManagementGroup mg;
 
-        public event EventHandler DataInitCompleted;
-
         #region Properties
+
+        private ObservableCollection<ScomGroup> scomGroups;
+        public ObservableCollection<ScomGroup> ScomGroups
+        {
+            get { return scomGroups; }
+            set
+            {
+                scomGroups = value;
+                OnPropertyChanged(nameof(ScomGroups));
+            }
+        }
+
+        private ObservableCollection<ScomMP> scomMPs;
+        public ObservableCollection<ScomMP> ScomMPs
+        {
+            get { return scomMPs; }
+            set
+            {
+                scomMPs = value;
+                OnPropertyChanged(nameof(ScomMPs));
+            }
+        }
 
         private ObservableCollection<ScomFlatWorkflow> scomFlatWorkflows;
         public ObservableCollection<ScomFlatWorkflow> ScomFlatWorkflows
@@ -33,7 +52,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 scomFlatWorkflows = value;
-                OnPropertyChanged("ScomFlatWorkflows");
+                OnPropertyChanged(nameof(ScomFlatWorkflows));
             }
         }
 
@@ -47,7 +66,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 isInitActionInProgress = value;
-                OnPropertyChanged("IsInitActionInProgress");
+                OnPropertyChanged(nameof(IsInitActionInProgress));
             }
         }
         private bool isConnectActionAvailable = true;
@@ -60,7 +79,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 isConnectActionAvailable = value;
-                OnPropertyChanged("IsConnectActionAvailable");
+                OnPropertyChanged(nameof(IsConnectActionAvailable));
             }
         }
 
@@ -74,7 +93,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 initStatus = value;
-                OnPropertyChanged("InitStatus");
+                OnPropertyChanged(nameof(InitStatus));
             }
         }
 
@@ -90,15 +109,46 @@ namespace SCOM_CFU_GUI.ViewModels
             {
                 Properties.Settings.Default.scomHost = value;
                 Properties.Settings.Default.Save();
-                OnPropertyChanged("ScomHostname");
+                OnPropertyChanged(nameof(ScomHostname));
             }
         }
         #endregion
 
+        #region Events / Commands
+
+        public event EventHandler DataInitCompleted;
+        void OnDataInitCompleted()
+        {
+            EventHandler handler = this.DataInitCompleted;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        RelayCommand<object> connectCommand;
+        public ICommand ConnectCommand
+        {
+            get
+            {
+                if (connectCommand == null)
+                {
+                    connectCommand = new RelayCommand<object>(async param => await this.InitializeScomDataGathering(), param => IsConnectActionAvailable);
+                }
+                return connectCommand;
+            }
+        }
+
+        #endregion
 
 
         public async Task InitializeScomDataGathering()
         {
+            //make sure we start with empty collections
+            ScomFlatWorkflows = new ObservableCollection<ScomFlatWorkflow>();
+            ScomMPs = new ObservableCollection<ScomMP>();
+            scomGroups = new ObservableCollection<ScomGroup>();
+
             IsConnectActionAvailable = false;
             IsInitActionInProgress = true;
 
@@ -122,7 +172,7 @@ namespace SCOM_CFU_GUI.ViewModels
             await GetScomGroups();
 
             InitStatus = "Ordering data...";
-            await BuildHierarchicalScomData();
+            BuildHierarchicalScomData();
 
             InitStatus = "Finished";
             IsInitActionInProgress = false;
@@ -130,15 +180,57 @@ namespace SCOM_CFU_GUI.ViewModels
             OnDataInitCompleted();
         }
 
-        async Task BuildHierarchicalScomData()
+        void BuildHierarchicalScomData()
         {
 
+            //query and group flat workflow items by management pack
+            var queryMp =
+                from workflow in ScomFlatWorkflows
+                group workflow by new { workflow.MpId, workflow.MpName} into g
+                orderby g.Key
+                select g;
+
+            try
+            {
+                //foreach mp we find...
+                foreach (var mpGroup in queryMp)
+                {
+
+                    //we query again to group all items by target
+                    var queryTarget =
+                        from item in mpGroup
+                        group item by new { item.TargetId, item.TargetName } into g
+                        orderby g.Key
+                        select g;
+
+                    var targetObservableCollection = new ObservableCollection<ScomTarget>();
+
+                    foreach (var targetGroup in queryTarget)
+                    {
+                        //targetGroup.Key.TargetId
+                        //Here we have a list of workflows per target
+                        var workflowObservableCollection = new ObservableCollection<ScomWorkflow>();
+                        //workflowObservableCollection = targetGroup.ToObservableCollection<>
+                        foreach (var flow in targetGroup)
+                        {
+                            workflowObservableCollection.Add(new ScomWorkflow(flow.Id, flow.Name, flow.Type));
+                        }
+                        targetObservableCollection.Add(new ScomTarget(targetGroup.Key.TargetId, targetGroup.Key.TargetName, workflowObservableCollection));
+                    }
+
+                    //MP level
+                    scomMPs.Add(new ScomMP(mpGroup.Key.MpId, mpGroup.Key.MpName, targetObservableCollection));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
         }
 
         async Task GetScomRules()
         {
-            //make sure we start with an empty list
-            ScomFlatWorkflows = new ObservableCollection<ScomFlatWorkflow>();
+            
 
             //Get All Rules
             IList<ManagementPackRule> scomRules = await Task.Run(() => mg.Monitoring.GetRules());
@@ -189,9 +281,6 @@ namespace SCOM_CFU_GUI.ViewModels
 
         async Task GetScomGroups()
         {
-            //make sure we start with an empty list
-            scomGroups = new List<ScomGroup>();
-
             //Get All Groups
             IList<MonitoringObjectGroup> groups = await Task.Run(() => mg.EntityObjects.GetRootObjectGroups<MonitoringObjectGroup>(ObjectQueryOptions.Default));
 
@@ -204,7 +293,6 @@ namespace SCOM_CFU_GUI.ViewModels
 
         async Task ConnectToScom()
         {
-
             await Task.Run(() =>
             {
                 try
@@ -216,38 +304,6 @@ namespace SCOM_CFU_GUI.ViewModels
                     MessageBox.Show(ex.Message, "Error");
                 }
             });
-           
         }
-
-        #region Events / Commands
-
-        void OnDataInitCompleted()
-        {
-            EventHandler handler = this.DataInitCompleted;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
-        }
-
-        private ICommand scomConnectCommand;
-        public ICommand ScomConnectCommand
-        {
-            get
-            {
-                if (scomConnectCommand == null)
-                {
-                    scomConnectCommand = new ScomConnectCommand(this);
-                }
-                return scomConnectCommand;
-            }
-            set
-            {
-                scomConnectCommand = value;
-            }
-        }
-
-        #endregion
-
     }
 }
