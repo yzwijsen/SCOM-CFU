@@ -187,7 +187,7 @@ namespace SCOM_CFU_GUI.ViewModels
             var queryMp =
                 from workflow in ScomFlatWorkflows
                 group workflow by new { workflow.MpId, workflow.MpName } into g
-                orderby g.Key.MpId
+                orderby g.Key.MpName
                 select g;
 
             try
@@ -200,7 +200,7 @@ namespace SCOM_CFU_GUI.ViewModels
                     var queryTarget =
                         from item in mpGroup
                         group item by new { item.TargetId, item.TargetName } into g
-                        orderby g.Key.TargetId
+                        orderby g.Key.TargetName
                         select g;
 
                     var targetObservableCollection = new ObservableCollection<ScomTarget>();
