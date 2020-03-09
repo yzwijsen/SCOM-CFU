@@ -172,7 +172,7 @@ namespace SCOM_CFU_GUI.ViewModels
             await GetScomGroups();
 
             InitStatus = "Ordering data...";
-            BuildHierarchicalScomData();
+            await BuildHierarchicalScomData();
 
             InitStatus = "Finished";
             IsInitActionInProgress = false;
@@ -180,15 +180,15 @@ namespace SCOM_CFU_GUI.ViewModels
             OnDataInitCompleted();
         }
 
-        void BuildHierarchicalScomData()
+        async Task BuildHierarchicalScomData()
         {
 
             //query and group flat workflow items by management pack
-            var queryMp =
+            var queryMp = await Task.Run(() => 
                 from workflow in ScomFlatWorkflows
                 group workflow by new { workflow.MpId, workflow.MpName } into g
                 orderby g.Key.MpName
-                select g;
+                select g);
 
             try
             {
@@ -197,11 +197,11 @@ namespace SCOM_CFU_GUI.ViewModels
                 {
 
                     //we query again to group all items by target
-                    var queryTarget =
+                    var queryTarget = await Task.Run(() =>
                         from item in mpGroup
                         group item by new { item.TargetId, item.TargetName } into g
                         orderby g.Key.TargetName
-                        select g;
+                        select g);
 
                     var targetObservableCollection = new ObservableCollection<ScomTarget>();
 
