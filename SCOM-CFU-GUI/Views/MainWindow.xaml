@@ -27,7 +27,7 @@
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						<GroupBox Header="Management Packs" Grid.RowSpan="2">
-							<TreeView Name="trvFamilies" ItemsSource="{Binding ScomMPs}" Grid.Row="1" Grid.ColumnSpan="2">
+							<TreeView Name="mpTreeView" ItemsSource="{Binding ScomMPs}" Grid.Row="1" Grid.ColumnSpan="2">
 								<TreeView.Resources>
 									<HierarchicalDataTemplate DataType="{x:Type m:ScomMP}" ItemsSource="{Binding ScomTargets}">
 										<StackPanel Orientation="Horizontal">
@@ -45,9 +45,9 @@
 							</TreeView>
 						</GroupBox>
 						<GroupBox Header="Rules and Monitors" Grid.Column="1" Grid.ColumnSpan="2">
-							<ListBox ItemsSource="{Binding ScomFlatWorkflows}">
+							<ListBox ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}">
 								<ListBox.ItemTemplate>
-									<DataTemplate>
+									<DataTemplate DataType="{x:Type m:ScomWorkflow}">
 										<TextBlock Text="{Binding Name}"/>
 									</DataTemplate>
 								</ListBox.ItemTemplate>

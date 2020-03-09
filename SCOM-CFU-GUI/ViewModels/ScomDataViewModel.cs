@@ -177,6 +177,7 @@ namespace SCOM_CFU_GUI.ViewModels
             InitStatus = "Finished";
             IsInitActionInProgress = false;
 
+            //fire an event saying data init is finished, this allows the Init dialog window to close itself
             OnDataInitCompleted();
         }
 
@@ -205,20 +206,23 @@ namespace SCOM_CFU_GUI.ViewModels
 
                     var targetObservableCollection = new ObservableCollection<ScomTarget>();
 
+                    //foreach target we find..
                     foreach (var targetGroup in queryTarget)
                     {
-                        //targetGroup.Key.TargetId
-                        //Here we have a list of workflows per target
+                        //we add the target to a list
                         var workflowObservableCollection = new ObservableCollection<ScomWorkflow>();
-                        //workflowObservableCollection = targetGroup.ToObservableCollection<>
+
+                        //foreach workflow in the list
                         foreach (var flow in targetGroup)
                         {
+                            //we add the workflow to the targets workflow list
                             workflowObservableCollection.Add(new ScomWorkflow(flow.Id, flow.Name, flow.Type));
                         }
+                        //we add the current target + it's list of workflows to the target list
                         targetObservableCollection.Add(new ScomTarget(targetGroup.Key.TargetId, targetGroup.Key.TargetName, workflowObservableCollection));
                     }
 
-                    //MP level
+                    //we add the current mp + it's list of targets to the mp list
                     ScomMPs.Add(new ScomMP(mpGroup.Key.MpId, mpGroup.Key.MpName, targetObservableCollection));
                 }
             }
@@ -230,7 +234,6 @@ namespace SCOM_CFU_GUI.ViewModels
 
         async Task GetScomRules()
         {
-            
 
             //Get All Rules
             IList<ManagementPackRule> scomRules = await Task.Run(() => mg.Monitoring.GetRules());
