@@ -122,7 +122,7 @@ namespace SCOM_CFU_GUI.ViewModels
             await GetScomGroups();
 
             InitStatus = "Ordering data...";
-            BuildHierarchicalScomData();
+            await BuildHierarchicalScomData();
 
             InitStatus = "Finished";
             IsInitActionInProgress = false;
