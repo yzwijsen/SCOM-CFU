@@ -31,13 +31,13 @@
 								<TreeView.Resources>
 									<HierarchicalDataTemplate DataType="{x:Type m:ScomMP}" ItemsSource="{Binding ScomTargets}">
 										<StackPanel Orientation="Horizontal">
-											<Label VerticalAlignment="Center" FontFamily="WingDings" Content="1"/>
+											<!--<Label VerticalAlignment="Center" FontFamily="WingDings" Content="1"/>-->
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
 									</HierarchicalDataTemplate>
 									<DataTemplate DataType="{x:Type m:ScomTarget}">
 										<StackPanel Orientation="Horizontal">
-											<Label VerticalAlignment="Center" FontFamily="WingDings" Content="2"/>
+											<!--<Label VerticalAlignment="Center" FontFamily="WingDings" Content="2"/>-->
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
 									</DataTemplate>
@@ -45,13 +45,13 @@
 							</TreeView>
 						</GroupBox>
 						<GroupBox Header="Rules and Monitors" Grid.Column="1" Grid.ColumnSpan="2">
-							<ListBox ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}">
-								<ListBox.ItemTemplate>
+							<ListView ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}">
+								<ListView.ItemTemplate>
 									<DataTemplate DataType="{x:Type m:ScomWorkflow}">
 										<TextBlock Text="{Binding Name}"/>
 									</DataTemplate>
-								</ListBox.ItemTemplate>
-							</ListBox>
+								</ListView.ItemTemplate>
+							</ListView>
 						</GroupBox>
 						<GroupBox Header="CustomField Data" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
 							

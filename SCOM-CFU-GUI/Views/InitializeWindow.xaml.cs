@@ -35,7 +35,7 @@ namespace SCOM_CFU_GUI.Views
         async Task CloseWindowDelayed()
         {
             isDataInitCompleted = true;
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             this.Close();
         }
 

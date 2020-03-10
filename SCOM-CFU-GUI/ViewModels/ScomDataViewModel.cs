@@ -147,7 +147,7 @@ namespace SCOM_CFU_GUI.ViewModels
             //make sure we start with empty collections
             ScomFlatWorkflows = new ObservableCollection<ScomFlatWorkflow>();
             ScomMPs = new ObservableCollection<ScomMP>();
-            scomGroups = new ObservableCollection<ScomGroup>();
+            ScomGroups = new ObservableCollection<ScomGroup>();
 
             IsConnectActionAvailable = false;
             IsInitActionInProgress = true;
