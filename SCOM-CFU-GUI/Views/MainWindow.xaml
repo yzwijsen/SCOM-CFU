@@ -19,14 +19,16 @@
 					<Grid DataContext="{StaticResource mainViewModel}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"/>
+							<RowDefinition Height="5"/>
 							<RowDefinition Height="*"/>
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="5"/>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						<GroupBox Header="Management Packs" Grid.RowSpan="2">
+						<GroupBox Header="Management Packs" Grid.RowSpan="3">
 							<TreeView Name="mpTreeView" ItemsSource="{Binding ScomMPs}" Grid.Row="1" Grid.ColumnSpan="2">
 								<TreeView.Resources>
 									<HierarchicalDataTemplate DataType="{x:Type m:ScomMP}" ItemsSource="{Binding ScomTargets}">
@@ -44,16 +46,21 @@
 								</TreeView.Resources>
 							</TreeView>
 						</GroupBox>
-						<GroupBox Header="Rules and Monitors" Grid.Column="1" Grid.ColumnSpan="2">
+						<GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" HorizontalAlignment="Stretch"/>
+						<GroupBox Header="Rules and Monitors" Grid.Column="2" Grid.ColumnSpan="2">
 							<ListView ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}">
 								<ListView.ItemTemplate>
 									<DataTemplate DataType="{x:Type m:ScomWorkflow}">
-										<TextBlock Text="{Binding Name}"/>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/SCOM-CFU-GUI;component/Icons/system-monitor.png" Margin="0,0,5,0"/>
+											<TextBlock Text="{Binding Name}"/>
+										</StackPanel>
 									</DataTemplate>
 								</ListView.ItemTemplate>
 							</ListView>
 						</GroupBox>
-						<GroupBox Header="CustomField Data" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+						<GridSplitter Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Height="5" HorizontalAlignment="Stretch"/>
+						<GroupBox Header="CustomField Data" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
 							
 						</GroupBox>
 					</Grid>
