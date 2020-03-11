@@ -65,12 +65,12 @@
     <Compile Include="Models\ScomTarget.cs" />
     <Compile Include="Models\ScomFlatWorkflow.cs" />
     <Compile Include="Models\WorkflowType.cs" />
-    <Compile Include="DataAccess\DummyDataRepository.cs" />
+    <Compile Include="DataAccess\ScomDummyDataRepository.cs" />
     <Compile Include="DataAccess\ICustomFieldDataRepository.cs" />
     <Compile Include="DataAccess\IScomDataRepository.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="DataAccess\ScomSDKDataRepository.cs" />
-    <Compile Include="ViewModels\ScomDataViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Views\InitializeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -9,7 +9,7 @@ namespace SCOM_CFU_GUI.DataAccess
 {
     interface IScomDataRepository
     {
-        Task ConnectToScomAsync(string hostname);
+        Task<bool> ConnectToScomAsync(string hostname);
         Task<List<ScomGroup>> GetScomGroupsAsync();
         Task<List<ScomMP>> GetScomManagementPacksAsync();
     }

@@ -28,7 +28,7 @@ namespace SCOM_CFU_GUI.Views
         {
             InitializeComponent();
 
-            var vm = Application.Current.Resources["scomDataViewModel"] as ScomDataViewModel;
+            var vm = Application.Current.Resources["mainViewModel"] as MainViewModel;
             vm.DataInitCompleted += async (s, e) => await CloseWindowDelayed();
         }
 

@@ -5,6 +5,6 @@
 			 xmlns:vm="clr-namespace:SCOM_CFU_GUI.ViewModels"
              StartupUri="Views/Mainwindow.xaml">
 	<Application.Resources>
-		<vm:ScomDataViewModel x:Key="scomDataViewModel"/>
+		<vm:MainViewModel x:Key="mainViewModel"/>
 	</Application.Resources>
 </Application>

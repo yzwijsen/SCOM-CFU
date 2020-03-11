@@ -23,7 +23,7 @@ namespace SCOM_CFU_GUI.DataAccess
 
 
 
-        public async Task ConnectToScomAsync(string hostname)
+        public async Task<bool> ConnectToScomAsync(string hostname)
         {
             await Task.Run(() =>
             {
@@ -36,8 +36,13 @@ namespace SCOM_CFU_GUI.DataAccess
                     MessageBox.Show(ex.Message, "Error");
                 }
             });
-        }
 
+            if (mg == null || !mg.IsConnected)
+            {
+                return false;
+            }
+            return true;
+        }
         public async Task<List<ScomGroup>> GetScomGroupsAsync()
         {
             scomGroups = new List<ScomGroup>();
@@ -114,7 +119,7 @@ namespace SCOM_CFU_GUI.DataAccess
             }
         }
 
-        async Task GetScomRules()
+        private async Task GetScomRules()
         {
 
             //Get All Rules
@@ -133,7 +138,7 @@ namespace SCOM_CFU_GUI.DataAccess
             }
         }
 
-        async Task GetScomMonitors()
+        private async Task GetScomMonitors()
         {
             //Get All Monitors
             IList<ManagementPackMonitor> scomMonitors = await Task.Run(() => mg.Monitoring.GetMonitors());

@@ -10,7 +10,7 @@
 		<BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
 		<local:BooleanToVisibileHiddenConverter x:Key="booleanToVisibileHiddenConverter"/>
 	</Window.Resources>
-	<Grid DataContext="{StaticResource scomDataViewModel}">
+	<Grid DataContext="{StaticResource mainViewModel}">
 		<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
 			<TextBlock Text="SCOM MS Hostname:"/>
 			<StackPanel Orientation="Horizontal" Margin="0,5,0,20">

@@ -16,7 +16,7 @@
 			</Grid.RowDefinitions>
 			<TabControl Grid.Row="0">
 				<TabItem Header="Alerts">
-					<Grid DataContext="{StaticResource scomDataViewModel}">
+					<Grid DataContext="{StaticResource mainViewModel}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
