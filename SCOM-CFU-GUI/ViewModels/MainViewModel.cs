@@ -14,7 +14,7 @@ namespace SCOM_CFU_GUI.ViewModels
 
         #region Properties
 
-        private string scomManagementGroupName = "Initializing...";
+        private string scomManagementGroupName;
         public string ScomManagementGroupName
         {
             get { return scomManagementGroupName; }

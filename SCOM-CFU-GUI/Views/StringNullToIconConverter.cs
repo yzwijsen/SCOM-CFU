@@ -9,17 +9,24 @@ using System.Windows.Media.Imaging;
 
 namespace SCOM_CFU_GUI.Views
 {
-    class BooleanToConnectionImageConverter : IValueConverter
+    class StringNullToIconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var boolean = false;
-            if (value is bool) boolean = (bool)value;
-            var connectImg = new BitmapImage();
-            var disconnectImg = new BitmapImage();
-            connectImg.UriSource = new Uri(@"/Icons/computer-network.png", UriKind.RelativeOrAbsolute);
-            disconnectImg.UriSource = new Uri(@"/Icons/target.png", UriKind.RelativeOrAbsolute);
-            return boolean ? connectImg : disconnectImg;
+            var s = value as string;
+            var img = new BitmapImage();
+            img.BeginInit();
+
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                img.UriSource = new Uri(@"/Icons/target.png", UriKind.RelativeOrAbsolute);
+            }
+            else
+            {
+                img.UriSource = new Uri(@"/Icons/computer-network.png", UriKind.RelativeOrAbsolute);
+            }
+            img.EndInit();
+            return img;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

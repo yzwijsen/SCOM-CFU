@@ -71,6 +71,8 @@
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="DataAccess\ScomSDKDataRepository.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\StringNullOrEmptyBoolConverter.cs" />
+    <Compile Include="Views\StringNullToIconConverter.cs" />
     <Page Include="Views\InitializeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -85,7 +87,6 @@
     </Compile>
     <Compile Include="Models\ScomWorkflow.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\BooleanToConnectionImageConverter.cs" />
     <Compile Include="Views\BooleanToVisibleHiddenConverter.cs" />
     <Compile Include="Views\InitializeWindow.xaml.cs">
       <DependentUpon>InitializeWindow.xaml</DependentUpon>
