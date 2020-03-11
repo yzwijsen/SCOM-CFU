@@ -42,6 +42,7 @@ namespace SCOM_CFU_GUI.DataAccess
                 return false;
             }
             return true;
+
         }
         public async Task<List<ScomGroup>> GetScomGroupsAsync()
         {
@@ -167,6 +168,11 @@ namespace SCOM_CFU_GUI.DataAccess
             var workflowItem = new ScomFlatWorkflow(id, name, type, target.Id, target.DisplayName, mp.Id, mp.DisplayName);
 
             return workflowItem;
+        }
+
+        public string GetScomManagementGroupInfo()
+        {
+            return $"Connected to {mg.Name} (Loaded {scomFlatWorkflows.Count()} workflows from {scomMPs.Count()} Management Packs";
         }
     }
 }

@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace SCOM_CFU_GUI.DataAccess
 {
-    class ScomDummyDataRepository : IScomDataRepository
+    class ScomMockDataRepository : IScomDataRepository
     {
+        private int workflowCount;
+
         public async Task<bool> ConnectToScomAsync(string hostname)
         {
             await Task.Delay(2000);
@@ -60,9 +62,15 @@ namespace SCOM_CFU_GUI.DataAccess
             {
                 workflowList.Add(new ScomWorkflow(Guid.NewGuid(), $"{nameBase} Rule {i}", WorkflowType.Rule));
                 workflowList.Add(new ScomWorkflow(Guid.NewGuid(), $"{nameBase} Monitor {i}", WorkflowType.Rule));
+                workflowCount += 2;
             }
 
             return workflowList;
+        }
+
+        public string GetScomManagementGroupInfo()
+        {
+            return $"Connected to Mock Data. (Loaded {workflowCount} workflows from 2 Management Packs)";
         }
     }
 }

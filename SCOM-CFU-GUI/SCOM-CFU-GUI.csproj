@@ -65,7 +65,7 @@
     <Compile Include="Models\ScomTarget.cs" />
     <Compile Include="Models\ScomFlatWorkflow.cs" />
     <Compile Include="Models\WorkflowType.cs" />
-    <Compile Include="DataAccess\ScomDummyDataRepository.cs" />
+    <Compile Include="DataAccess\ScomMockDataRepository.cs" />
     <Compile Include="DataAccess\ICustomFieldDataRepository.cs" />
     <Compile Include="DataAccess\IScomDataRepository.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />

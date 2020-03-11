@@ -12,5 +12,6 @@ namespace SCOM_CFU_GUI.DataAccess
         Task<bool> ConnectToScomAsync(string hostname);
         Task<List<ScomGroup>> GetScomGroupsAsync();
         Task<List<ScomMP>> GetScomManagementPacksAsync();
+        string GetScomManagementGroupInfo();
     }
 }

@@ -80,7 +80,7 @@
 			</TabControl>
 			<StatusBar x:Name="statusBar" Grid.Row="1">
 				<StatusBarItem>
-					<TextBlock x:Name="statusText">Status...</TextBlock>
+					<TextBlock x:Name="statusText" DataContext="{StaticResource mainViewModel}" Text="{Binding ScomManagementGroupInfo}"/>
 				</StatusBarItem>
 			</StatusBar>
 		</Grid>

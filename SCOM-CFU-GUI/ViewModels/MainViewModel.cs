@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using SCOM_CFU_GUI.DataAccess;
@@ -14,6 +13,17 @@ namespace SCOM_CFU_GUI.ViewModels
         private IScomDataRepository scomDataRepo;
 
         #region Properties
+
+        private string scomManagementGroupInfo = "Initializing...";
+        public string ScomManagementGroupInfo
+        {
+            get { return scomManagementGroupInfo; }
+            set
+            {
+                scomManagementGroupInfo = value;
+                OnPropertyChanged(nameof(ScomManagementGroupInfo));
+            }
+        }
 
         private ObservableCollection<ScomGroup> scomGroups;
         public ObservableCollection<ScomGroup> ScomGroups
@@ -122,27 +132,13 @@ namespace SCOM_CFU_GUI.ViewModels
 
         #endregion
 
-
-        public MainViewModel()
-        {
-            var currentHostname = Dns.GetHostName();
-            if (currentHostname == "GDesktopW7")
-            {
-                //user dummy data
-                scomDataRepo = new ScomDummyDataRepository();
-            }
-            else
-            {
-                //use real scom data
-                scomDataRepo = new ScomSDKDataRepository();
-            }
-
-        }
-
         public async Task InitializeScomDataGathering()
         {
             IsConnectActionAvailable = false;
             IsInitActionInProgress = true;
+
+            //set scom data repo
+            scomDataRepo = SelectScomDataRepository(ScomHostname);
 
             InitStatus = $"Connecting to {ScomHostname} ...";
             var connected = await scomDataRepo.ConnectToScomAsync(ScomHostname);
@@ -165,6 +161,23 @@ namespace SCOM_CFU_GUI.ViewModels
 
             //fire an event saying data init is finished, this allows the Init dialog window to close itself
             OnDataInitCompleted();
+
+            //Collect management group info and update property
+            ScomManagementGroupInfo = scomDataRepo.GetScomManagementGroupInfo();
+        }
+
+        private IScomDataRepository SelectScomDataRepository(string hostname)
+        {
+            if (hostname == "MockData")
+            {
+                //use mock data
+                return new ScomMockDataRepository();
+            }
+            else
+            {
+                //use real scom data
+                return new ScomSDKDataRepository();
+            }
         }
     }
 }
