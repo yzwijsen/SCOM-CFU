@@ -8,89 +8,94 @@
         xmlns:local="clr-namespace:SCOM_CFU_GUI.Views"
         mc:Ignorable="d"
         Title="SCOM CFU GUI" Height="800" Width="1000" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Icon="/SCOM-CFU-GUI;component/Icons/system-monitor.png">
-	<Border Padding="10">
+	<!--<Border Padding="10">-->
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"/>
-				<RowDefinition Height="20"/>
+				<RowDefinition Height="auto"/>
 			</Grid.RowDefinitions>
-			<TabControl Grid.Row="0">
-				<TabItem Header="Workflows">
-					<Grid DataContext="{StaticResource mainViewModel}">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="*"/>
-							<RowDefinition Height="5"/>
-							<RowDefinition Height="*"/>
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*"/>
-							<ColumnDefinition Width="5"/>
-							<ColumnDefinition Width="*"/>
-							<ColumnDefinition Width="*"/>
-						</Grid.ColumnDefinitions>
-						<GroupBox Header="Management Packs" Grid.RowSpan="3">
-							<TreeView Name="mpTreeView" ItemsSource="{Binding ScomMPs}" Grid.Row="1" Grid.ColumnSpan="2">
-								<TreeView.Resources>
-									<HierarchicalDataTemplate DataType="{x:Type m:ScomMP}" ItemsSource="{Binding ScomTargets}">
-										<StackPanel Orientation="Horizontal">
-											<Image Source="/SCOM-CFU-GUI;component/Icons/box.png" Margin="0,0,5,0"/>
-											<TextBlock Text="{Binding Name}" />
-										</StackPanel>
-									</HierarchicalDataTemplate>
-									<DataTemplate DataType="{x:Type m:ScomTarget}">
-										<StackPanel Orientation="Horizontal">
-											<Image Source="/SCOM-CFU-GUI;component/Icons/target.png" Margin="0,0,5,0"/>
-											<TextBlock Text="{Binding Name}" />
-										</StackPanel>
-									</DataTemplate>
-								</TreeView.Resources>
-							</TreeView>
-						</GroupBox>
-						<GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" HorizontalAlignment="Stretch"/>
-						<GroupBox Header="Rules and Monitors" Grid.Column="2" Grid.ColumnSpan="2">
-							<ListView ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}">
-								<ListView.ItemTemplate>
-									<DataTemplate DataType="{x:Type m:ScomWorkflow}">
-										<StackPanel Orientation="Horizontal">
-											<Image Source="/SCOM-CFU-GUI;component/Icons/system-monitor.png" Margin="0,0,5,0"/>
-											<TextBlock Text="{Binding Name}"/>
-										</StackPanel>
-									</DataTemplate>
-								</ListView.ItemTemplate>
-							</ListView>
-						</GroupBox>
-						<GridSplitter Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Height="5" HorizontalAlignment="Stretch"/>
-						<GroupBox Header="CustomField Data" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
+			<Border Padding="5,5,5,0">
+				<TabControl>
+					<TabItem Header="Workflows">
+						<Grid DataContext="{StaticResource mainViewModel}">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" MinHeight="100"/>
+								<RowDefinition Height="5"/>
+								<RowDefinition Height="*" MinHeight="200"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" MinWidth="100"/>
+								<ColumnDefinition Width="5"/>
+								<ColumnDefinition Width="*" MinWidth="100"/>
+								<ColumnDefinition Width="*" MinWidth="100"/>
+							</Grid.ColumnDefinitions>
+							<GroupBox Header="Management Packs" Grid.RowSpan="3">
+								<TreeView Name="mpTreeView" ItemsSource="{Binding ScomMPs}" Grid.Row="1" Grid.ColumnSpan="2">
+									<TreeView.Resources>
+										<HierarchicalDataTemplate DataType="{x:Type m:ScomMP}" ItemsSource="{Binding ScomTargets}">
+											<StackPanel Orientation="Horizontal">
+												<Image Source="/SCOM-CFU-GUI;component/Icons/box.png" Margin="0,0,5,0"/>
+												<TextBlock Text="{Binding Name}" />
+											</StackPanel>
+										</HierarchicalDataTemplate>
+										<DataTemplate DataType="{x:Type m:ScomTarget}">
+											<StackPanel Orientation="Horizontal">
+												<Image Source="/SCOM-CFU-GUI;component/Icons/target.png" Margin="0,0,5,0"/>
+												<TextBlock Text="{Binding Name}" />
+											</StackPanel>
+										</DataTemplate>
+									</TreeView.Resources>
+								</TreeView>
+							</GroupBox>
+							<GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" HorizontalAlignment="Stretch" Background="White"/>
+							<GroupBox Header="Rules and Monitors" Grid.Column="2" Grid.ColumnSpan="2">
+								<ListView ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}">
+									<ListView.ItemTemplate>
+										<DataTemplate DataType="{x:Type m:ScomWorkflow}">
+											<StackPanel Orientation="Horizontal">
+												<Image Source="/SCOM-CFU-GUI;component/Icons/system-monitor.png" Margin="0,0,5,0"/>
+												<TextBlock Text="{Binding Name}"/>
+											</StackPanel>
+										</DataTemplate>
+									</ListView.ItemTemplate>
+								</ListView>
+							</GroupBox>
+						<GridSplitter Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Height="5" HorizontalAlignment="Stretch" Background="White"/>
+							<GroupBox Header="CustomField Data" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
 							
-						</GroupBox>
-					</Grid>
-				</TabItem>
-				<TabItem Header="CF Data Sets">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="*"/>
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*"/>
-							<ColumnDefinition Width="*"/>
-						</Grid.ColumnDefinitions>
-						<GroupBox Header="Stored Sets">
-							<ListBox>
+							</GroupBox>
+						</Grid>
+					</TabItem>
+					<TabItem Header="CF Data Sets">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<GroupBox Header="Stored Sets">
+								<ListBox>
 								
-							</ListBox>
-						</GroupBox>
-						<GroupBox Header="CustomField Data" Grid.Column="1">
+								</ListBox>
+							</GroupBox>
+							<GroupBox Header="CustomField Data" Grid.Column="1">
 
-						</GroupBox>
-					</Grid>
-				</TabItem>
-			</TabControl>
+							</GroupBox>
+						</Grid>
+					</TabItem>
+				</TabControl>
+			</Border>
 			<StatusBar x:Name="statusBar" Grid.Row="1">
 				<StatusBarItem>
-					<TextBlock x:Name="statusText" DataContext="{StaticResource mainViewModel}" Text="{Binding ScomManagementGroupInfo}"/>
+					<StackPanel Orientation="Horizontal">
+						<Image Source="/SCOM-CFU-GUI;component/Icons/computer-network.png" Margin="0,0,5,0"/>
+						<TextBlock x:Name="statusText" MinHeight="20" DataContext="{StaticResource mainViewModel}" Text="{Binding ScomManagementGroupInfo}"/>
+					</StackPanel>
 				</StatusBarItem>
 			</StatusBar>
 		</Grid>
-	</Border>
+	<!--</Border>-->
 	
 </Window>
