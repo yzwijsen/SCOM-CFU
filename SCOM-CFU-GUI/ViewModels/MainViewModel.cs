@@ -14,7 +14,18 @@ namespace SCOM_CFU_GUI.ViewModels
 
         #region Properties
 
-        private string scomManagementGroupInfo = "Initializing...";
+        private string scomManagementGroupName = "Initializing...";
+        public string ScomManagementGroupName
+        {
+            get { return scomManagementGroupName; }
+            set
+            {
+                scomManagementGroupName = value;
+                OnPropertyChanged(nameof(ScomManagementGroupName));
+            }
+        }
+
+        private string scomManagementGroupInfo;
         public string ScomManagementGroupInfo
         {
             get { return scomManagementGroupInfo; }
@@ -163,6 +174,7 @@ namespace SCOM_CFU_GUI.ViewModels
             OnDataInitCompleted();
 
             //Collect management group info and update property
+            ScomManagementGroupName = scomDataRepo.GetScomManagementGroupName();
             ScomManagementGroupInfo = scomDataRepo.GetScomManagementGroupInfo();
         }
 

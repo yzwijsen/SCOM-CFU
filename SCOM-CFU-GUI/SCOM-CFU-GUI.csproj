@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="Models\ScomWorkflow.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\BooleanToConnectionImageConverter.cs" />
     <Compile Include="Views\BooleanToVisibleHiddenConverter.cs" />
     <Compile Include="Views\InitializeWindow.xaml.cs">
       <DependentUpon>InitializeWindow.xaml</DependentUpon>

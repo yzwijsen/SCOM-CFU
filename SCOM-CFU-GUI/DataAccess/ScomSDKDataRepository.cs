@@ -170,7 +170,12 @@ namespace SCOM_CFU_GUI.DataAccess
 
         public string GetScomManagementGroupInfo()
         {
-            return $"Connected to {mg.Name} (Loaded {scomFlatWorkflows.Count()} workflows from {scomMPs.Count()} Management Packs";
+            return $"Loaded {scomFlatWorkflows.Count()} workflows from {scomMPs.Count()} Management Packs";
+        }
+
+        public string GetScomManagementGroupName()
+        {
+            return mg.Name;
         }
     }
 }

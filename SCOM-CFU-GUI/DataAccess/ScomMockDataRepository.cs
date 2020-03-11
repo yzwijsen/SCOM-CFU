@@ -70,7 +70,11 @@ namespace SCOM_CFU_GUI.DataAccess
 
         public string GetScomManagementGroupInfo()
         {
-            return $"Connected to $MockData. (Loaded {workflowCount} workflows from 2 Management Packs)";
+            return $"Loaded {workflowCount} workflows from 2 Management Packs";
+        }
+        public string GetScomManagementGroupName()
+        {
+            return "$MockData";
         }
     }
 }

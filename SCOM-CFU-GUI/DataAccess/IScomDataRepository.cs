@@ -13,5 +13,6 @@ namespace SCOM_CFU_GUI.DataAccess
         Task<List<ScomGroup>> GetScomGroupsAsync();
         Task<List<ScomMP>> GetScomManagementPacksAsync();
         string GetScomManagementGroupInfo();
+        string GetScomManagementGroupName();
     }
 }
