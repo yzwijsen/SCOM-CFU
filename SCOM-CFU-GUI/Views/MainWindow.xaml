@@ -23,12 +23,12 @@
 					<Grid DataContext="{StaticResource mainViewModel}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" MinHeight="100"/>
-							<RowDefinition Height="5"/>
+							<RowDefinition Height="10"/>
 							<RowDefinition Height="*" MinHeight="200"/>
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" MinWidth="100"/>
-							<ColumnDefinition Width="5"/>
+							<ColumnDefinition Width="10"/>
 							<ColumnDefinition Width="*" MinWidth="100"/>
 							<ColumnDefinition Width="*" MinWidth="100"/>
 						</Grid.ColumnDefinitions>
@@ -50,7 +50,7 @@
 								</TreeView.Resources>
 							</TreeView>
 						</GroupBox>
-						<GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" HorizontalAlignment="Stretch" Background="White"/>
+						<GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="3" HorizontalAlignment="Stretch"/>
 						<GroupBox Header="Rules and Monitors" Grid.Column="2" Grid.ColumnSpan="2">
 							<ListView ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}">
 								<ListView.ItemTemplate>
@@ -63,7 +63,7 @@
 								</ListView.ItemTemplate>
 							</ListView>
 						</GroupBox>
-						<GridSplitter Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Height="5" HorizontalAlignment="Stretch" Background="White"/>
+						<GridSplitter Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Height="3" HorizontalAlignment="Stretch"/>
 						<GroupBox Header="CustomField Data" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
 
 						</GroupBox>
