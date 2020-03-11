@@ -133,5 +133,12 @@
   <ItemGroup>
     <Resource Include="Icons\system-monitor.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\computer--exclamation.png" />
+    <Resource Include="Icons\computer-off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\cross-button.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

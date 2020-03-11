@@ -19,7 +19,7 @@ namespace SCOM_CFU_GUI.Views
 
             if (string.IsNullOrWhiteSpace(s))
             {
-                img.UriSource = new Uri(@"/Icons/target.png", UriKind.RelativeOrAbsolute);
+                img.UriSource = new Uri(@"/Icons/computer-off.png", UriKind.RelativeOrAbsolute);
             }
             else
             {
