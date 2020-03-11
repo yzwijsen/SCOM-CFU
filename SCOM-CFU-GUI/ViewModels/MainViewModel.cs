@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using Microsoft.EnterpriseManagement;
-using Microsoft.EnterpriseManagement.Common;
-using Microsoft.EnterpriseManagement.Configuration;
-using Microsoft.EnterpriseManagement.Monitoring;
 using SCOM_CFU_GUI.DataAccess;
 using SCOM_CFU_GUI.Models;
-using SCOM_CFU_GUI.Views;
 
 namespace SCOM_CFU_GUI.ViewModels
 {
@@ -134,8 +125,18 @@ namespace SCOM_CFU_GUI.ViewModels
 
         public MainViewModel()
         {
-            scomDataRepo = new ScomDummyDataRepository();
-            //scomDataRepo = new ScomSDKDataRepository();
+            var currentHostname = Dns.GetHostName();
+            if (currentHostname == "GDesktopW7")
+            {
+                //user dummy data
+                scomDataRepo = new ScomDummyDataRepository();
+            }
+            else
+            {
+                //use real scom data
+                scomDataRepo = new ScomSDKDataRepository();
+            }
+
         }
 
         public async Task InitializeScomDataGathering()

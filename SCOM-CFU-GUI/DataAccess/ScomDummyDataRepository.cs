@@ -34,7 +34,7 @@ namespace SCOM_CFU_GUI.DataAccess
 
             List<ScomMP> mpList = new List<ScomMP>();
             List<ScomTarget> targetList = new List<ScomTarget>();
-            List<ScomWorkflow> workflowList = new List<ScomWorkflow>();
+            List<ScomWorkflow> workflowList;
 
             //create first dummy mp
             workflowList = CreateDummyWorkflows(8, "windows test workflow");

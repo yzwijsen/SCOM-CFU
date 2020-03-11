@@ -71,7 +71,7 @@ namespace SCOM_CFU_GUI.DataAccess
         private async Task BuildHierarchicalScomData()
         {
 
-            //query and group flat workflow items by management pack
+            //group flat workflow items by management pack
             var queryMp = await Task.Run(() =>
                 from workflow in scomFlatWorkflows
                 group workflow by new { workflow.MpId, workflow.MpName } into g
@@ -99,7 +99,7 @@ namespace SCOM_CFU_GUI.DataAccess
                         //we add the target to a list
                         var workflowList = new ObservableCollection<ScomWorkflow>();
 
-                        //foreach workflow in the list
+                        //foreach workflow in the group...
                         foreach (var flow in targetGroup)
                         {
                             //we add the workflow to the targets workflow list
