@@ -140,7 +140,7 @@ namespace SCOM_CFU_GUI.ViewModels
             //set scom data repo
             scomDataRepo = SelectScomDataRepository(ScomHostname);
 
-            InitStatus = $"Connecting to {ScomHostname} ...";
+            InitStatus = $"Connecting to {ScomHostname}...";
             var connected = await scomDataRepo.ConnectToScomAsync(ScomHostname);
             if (!connected)
             {

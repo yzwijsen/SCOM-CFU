@@ -21,8 +21,6 @@ namespace SCOM_CFU_GUI.DataAccess
         List<ScomFlatWorkflow> scomFlatWorkflows;
         List<ScomGroup> scomGroups = new List<ScomGroup>();
 
-
-
         public async Task<bool> ConnectToScomAsync(string hostname)
         {
             await Task.Run(() =>
@@ -157,7 +155,7 @@ namespace SCOM_CFU_GUI.DataAccess
             }
         }
 
-        ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, WorkflowType type, string targetText, ManagementPack mp)
+        private ScomFlatWorkflow CreateFlatWorkflowItem(Guid id, string name, WorkflowType type, string targetText, ManagementPack mp)
         {
             //Get GUID out of Alert Target field
             var targetID = Guid.Parse(targetText.Substring(targetText.LastIndexOf('=') + 1));
