@@ -14,13 +14,13 @@ namespace SCOM_CFU_GUI.DataAccess
 
         public async Task<bool> ConnectToScomAsync(string hostname)
         {
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             return true;
         }
 
         public async Task<List<ScomGroup>> GetScomGroupsAsync()
         {
-            await Task.Delay(3000);
+            await Task.Delay(2000);
 
             List<ScomGroup> groupList = new List<ScomGroup>();
             groupList.Add(new ScomGroup(Guid.NewGuid(), "Windows 2016 Group"));
@@ -32,7 +32,7 @@ namespace SCOM_CFU_GUI.DataAccess
 
         public async Task<List<ScomMP>> GetScomManagementPacksAsync()
         {
-            await Task.Delay(5000);
+            await Task.Delay(2000);
 
             List<ScomMP> mpList = new List<ScomMP>();
             List<ScomTarget> targetList = new List<ScomTarget>();

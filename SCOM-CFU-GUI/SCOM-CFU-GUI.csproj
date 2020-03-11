@@ -119,6 +119,17 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\computer-network.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\target.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\system-monitor.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -168,7 +168,7 @@ namespace SCOM_CFU_GUI.ViewModels
 
         private IScomDataRepository SelectScomDataRepository(string hostname)
         {
-            if (hostname == "MockData")
+            if (hostname == "$MockData")
             {
                 //use mock data
                 return new ScomMockDataRepository();
