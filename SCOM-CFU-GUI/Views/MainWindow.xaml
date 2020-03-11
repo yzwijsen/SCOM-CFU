@@ -15,7 +15,7 @@
 				<RowDefinition Height="20"/>
 			</Grid.RowDefinitions>
 			<TabControl Grid.Row="0">
-				<TabItem Header="Alerts">
+				<TabItem Header="Workflows">
 					<Grid DataContext="{StaticResource mainViewModel}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"/>
@@ -31,13 +31,13 @@
 								<TreeView.Resources>
 									<HierarchicalDataTemplate DataType="{x:Type m:ScomMP}" ItemsSource="{Binding ScomTargets}">
 										<StackPanel Orientation="Horizontal">
-											<Image Source="/SCOM-CFU-GUI;component/Icons/box.png" />
+											<Image Source="/SCOM-CFU-GUI;component/Icons/box.png" Margin="0,0,5,0"/>
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
 									</HierarchicalDataTemplate>
 									<DataTemplate DataType="{x:Type m:ScomTarget}">
 										<StackPanel Orientation="Horizontal">
-											<Image Source="/SCOM-CFU-GUI;component/Icons/target.png"/>
+											<Image Source="/SCOM-CFU-GUI;component/Icons/target.png" Margin="0,0,5,0"/>
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
 									</DataTemplate>
