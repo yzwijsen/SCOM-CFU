@@ -21,6 +21,8 @@ namespace SCOM_CFU_GUI.DataAccess
         List<ScomFlatWorkflow> scomFlatWorkflows;
         List<ScomGroup> scomGroups = new List<ScomGroup>();
 
+        int scomWorkflowCount;
+
         public async Task<bool> ConnectToScomAsync(string hostname)
         {
             await Task.Run(() =>
@@ -64,6 +66,10 @@ namespace SCOM_CFU_GUI.DataAccess
             await GetScomRules();
             await GetScomMonitors();
             await BuildHierarchicalScomData();
+
+            //clear flat workflow list since we don't need it anymore
+            scomFlatWorkflows.Clear();
+
             return scomMPs;
         }
 
@@ -126,6 +132,12 @@ namespace SCOM_CFU_GUI.DataAccess
 
             foreach (var scomRule in scomRules)
             {
+                //don't include performance collection rules as they can't raise alerts
+                if (scomRule.Category == ManagementPackCategoryType.PerformanceCollection)
+                {
+                    continue;
+                }
+
                 //get management pack
                 var mp = scomRule.GetManagementPack();
 
@@ -144,6 +156,12 @@ namespace SCOM_CFU_GUI.DataAccess
 
             foreach (var scomMonitor in scomMonitors)
             {
+                //don't include performance collection monitors as they can't raise alerts
+                if (scomMonitor.Category == ManagementPackCategoryType.PerformanceCollection)
+                {
+                    continue;
+                }
+
                 //get management pack
                 var mp = scomMonitor.GetManagementPack();
 
@@ -164,13 +182,14 @@ namespace SCOM_CFU_GUI.DataAccess
             var target = mg.EntityTypes.GetClass(targetID);
 
             var workflowItem = new ScomFlatWorkflow(id, name, type, target.Id, target.DisplayName, mp.Id, mp.DisplayName);
+            scomWorkflowCount++;
 
             return workflowItem;
         }
 
         public string GetScomManagementGroupInfo()
         {
-            return $"Loaded {scomFlatWorkflows.Count()} workflows from {scomMPs.Count()} Management Packs";
+            return $"Loaded {scomWorkflowCount} workflows from {scomMPs.Count()} Management Packs";
         }
 
         public string GetScomManagementGroupName()

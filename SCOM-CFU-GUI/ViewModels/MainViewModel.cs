@@ -161,6 +161,9 @@ namespace SCOM_CFU_GUI.ViewModels
                 return;
             }
 
+            //Set connected management group name
+            ScomManagementGroupName = scomDataRepo.GetScomManagementGroupName();
+
             InitStatus = "Getting SCOM Groups...";
             ScomGroups = new ObservableCollection<ScomGroup>(await scomDataRepo.GetScomGroupsAsync());
 
@@ -174,7 +177,6 @@ namespace SCOM_CFU_GUI.ViewModels
             OnDataInitCompleted();
 
             //Collect management group info and update property
-            ScomManagementGroupName = scomDataRepo.GetScomManagementGroupName();
             ScomManagementGroupInfo = scomDataRepo.GetScomManagementGroupInfo();
         }
 

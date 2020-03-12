@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SCOM_CFU_GUI.Views
 {
-    class StringNullOrEmptyBoolConverter : IValueConverter
+    class StringNullToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

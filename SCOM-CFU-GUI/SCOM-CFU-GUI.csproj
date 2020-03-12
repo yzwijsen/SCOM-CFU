@@ -71,7 +71,7 @@
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="DataAccess\ScomSDKDataRepository.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\StringNullOrEmptyBoolConverter.cs" />
+    <Compile Include="Views\StringNullToBoolConverter.cs" />
     <Compile Include="Views\StringNullToIconConverter.cs" />
     <Page Include="Views\InitializeWindow.xaml">
       <SubType>Designer</SubType>
