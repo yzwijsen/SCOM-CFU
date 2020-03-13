@@ -33,16 +33,16 @@
 							<ColumnDefinition Width="*" MinWidth="100"/>
 						</Grid.ColumnDefinitions>
 						<GroupBox Header="Management Packs" Grid.RowSpan="3">
-							<TreeView Name="mpTreeView" ItemsSource="{Binding ScomMPs}" Grid.Row="1" Grid.ColumnSpan="2">
+							<TreeView Name="mpTreeView" ItemsSource="{Binding ScomMPs}" Grid.Row="1" Grid.ColumnSpan="2" SelectedItemChanged="mpTreeView_SelectedItemChanged">
 								<TreeView.Resources>
 									<HierarchicalDataTemplate DataType="{x:Type m:ScomMP}" ItemsSource="{Binding ScomTargets}">
-										<StackPanel Orientation="Horizontal">
+										<StackPanel x:Name="targetStack" Orientation="Horizontal" MouseUp="targetStack_MouseUp">
 											<Image Source="/SCOM-CFU-GUI;component/Icons/box.png" Margin="0,0,5,0"/>
-											<TextBlock Text="{Binding Name}" />
+											<TextBlock Text="{Binding Name}"/>
 										</StackPanel>
 									</HierarchicalDataTemplate>
 									<DataTemplate DataType="{x:Type m:ScomTarget}">
-										<StackPanel Orientation="Horizontal">
+										<StackPanel x:Name="mpStack" Orientation="Horizontal" MouseUp="mpStack_MouseUp">
 											<Image Source="/SCOM-CFU-GUI;component/Icons/target.png" Margin="0,0,5,0"/>
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
@@ -51,8 +51,8 @@
 							</TreeView>
 						</GroupBox>
 						<GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="3" HorizontalAlignment="Stretch"/>
-						<GroupBox Header="Rules and Monitors" Grid.Column="2" Grid.ColumnSpan="2">
-							<ListView ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}">
+						<GroupBox Header="Workflows" Grid.Column="2" Grid.ColumnSpan="2">
+							<ListView ItemsSource="{Binding ElementName=mpTreeView, Path=SelectedItem.ScomWorkflows}" SelectedItem="{Binding SelectedConfigTarget}" SelectionMode="Single">
 								<ListView.ItemTemplate>
 									<DataTemplate DataType="{x:Type m:ScomWorkflow}">
 										<StackPanel Orientation="Horizontal">
@@ -64,7 +64,7 @@
 							</ListView>
 						</GroupBox>
 						<GridSplitter Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Height="3" HorizontalAlignment="Stretch"/>
-						<GroupBox Header="Configuration" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
+						<GroupBox Header="Configuration" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" DataContext="{StaticResource mainViewModel}">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*"/>
@@ -78,11 +78,11 @@
 								<StackPanel Orientation="Vertical" Grid.ColumnSpan="3" Margin="5">
 									<StackPanel Orientation="Horizontal">
 										<TextBlock Text="Selected Item:" FontWeight="Bold" Margin="0,0,10,0"/>
-										<TextBlock Text="blablabla"/>
+										<TextBlock Text="{Binding SelectedConfigTarget.Name}"/>
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBlock Text="Type:" FontWeight="Bold" Margin="0,0,10,0"/>
-										<TextBlock Text="blablabla"/>
+										<TextBlock Text="{Binding SelectedConfigTarget.ConfigTargetType}"/>
 									</StackPanel>
 								</StackPanel>
 								<GroupBox Header="Rules" Grid.Row="1">

@@ -60,6 +60,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ConfigurationTargetType.cs" />
+    <Compile Include="Models\IConfigurationTarget.cs" />
     <Compile Include="Models\ScomGroup.cs" />
     <Compile Include="Models\ScomMP.cs" />
     <Compile Include="Models\ScomTarget.cs" />

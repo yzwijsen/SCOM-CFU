@@ -37,17 +37,21 @@ namespace SCOM_CFU_GUI.DataAccess
             List<ScomWorkflow> workflowList;
 
             //create first dummy mp
+            var mpId = new Guid();
+            var mpName = "Windows 2016 Mp";
             workflowList = CreateDummyWorkflows(8, "windows test workflow");
-            targetList.Add(new ScomTarget(Guid.NewGuid(), "Target A", new ObservableCollection<ScomWorkflow>(workflowList)));
+            targetList.Add(new ScomTarget(Guid.NewGuid(), "Target A", mpId, new ObservableCollection<ScomWorkflow>(workflowList)));
             workflowList = CreateDummyWorkflows(3, "other windows test workflow");
-            targetList.Add(new ScomTarget(Guid.NewGuid(), "Target B", new ObservableCollection<ScomWorkflow>(workflowList)));
-            mpList.Add(new ScomMP(Guid.NewGuid(), "Windows 2016 MP", new ObservableCollection<ScomTarget>(targetList)));
+            targetList.Add(new ScomTarget(Guid.NewGuid(), "Target B", mpId,  new ObservableCollection<ScomWorkflow>(workflowList)));
+            mpList.Add(new ScomMP(mpId, mpName, new ObservableCollection<ScomTarget>(targetList)));
 
             //create second dummy mp
+            mpId = new Guid();
+            mpName = "Windows 2012 Mp";
             workflowList = CreateDummyWorkflows(45, "some workflow");
             targetList.Clear();
-            targetList.Add(new ScomTarget(Guid.NewGuid(), "test target", new ObservableCollection<ScomWorkflow>(workflowList)));
-            mpList.Add(new ScomMP(Guid.NewGuid(), "Wintel Test MP", new ObservableCollection<ScomTarget>(targetList)));
+            targetList.Add(new ScomTarget(Guid.NewGuid(), "test target", mpId, new ObservableCollection<ScomWorkflow>(workflowList)));
+            mpList.Add(new ScomMP(mpId, mpName, new ObservableCollection<ScomTarget>(targetList)));
 
             return mpList;
         }
@@ -59,7 +63,7 @@ namespace SCOM_CFU_GUI.DataAccess
             for (int i = 0; i < amount; i++)
             {
                 workflowList.Add(new ScomWorkflow(Guid.NewGuid(), $"{nameBase} Rule {i}", WorkflowType.Rule));
-                workflowList.Add(new ScomWorkflow(Guid.NewGuid(), $"{nameBase} Monitor {i}", WorkflowType.Rule));
+                workflowList.Add(new ScomWorkflow(Guid.NewGuid(), $"{nameBase} Monitor {i}", WorkflowType.Monitor));
                 workflowCount += 2;
             }
 

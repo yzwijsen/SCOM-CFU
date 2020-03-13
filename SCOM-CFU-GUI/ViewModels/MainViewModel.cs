@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using SCOM_CFU_GUI.DataAccess;
 using SCOM_CFU_GUI.Models;
@@ -13,6 +15,20 @@ namespace SCOM_CFU_GUI.ViewModels
         private IScomDataRepository scomDataRepo;
 
         #region Properties
+
+        private IConfigurationTarget selectedConfigTarget;
+        public IConfigurationTarget SelectedConfigTarget
+        {
+            get { return selectedConfigTarget; }
+            set
+            {
+                if (selectedConfigTarget != value)
+                {
+                    selectedConfigTarget = value;
+                    OnPropertyChanged(nameof(SelectedConfigTarget));
+                }
+            }
+        }
 
         private string scomManagementGroupName;
         public string ScomManagementGroupName

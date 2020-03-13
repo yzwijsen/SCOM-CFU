@@ -111,7 +111,7 @@ namespace SCOM_CFU_GUI.DataAccess
                             workflowList.Add(new ScomWorkflow(flow.Id, flow.Name, flow.Type));
                         }
                         //we add the current target + it's list of workflows to the target list
-                        targetList.Add(new ScomTarget(targetGroup.Key.TargetId, targetGroup.Key.TargetName, workflowList));
+                        targetList.Add(new ScomTarget(targetGroup.Key.TargetId, targetGroup.Key.TargetName,mpGroup.Key.MpId, workflowList));
                     }
 
                     //we add the current mp + it's list of targets to the mp list
@@ -133,10 +133,10 @@ namespace SCOM_CFU_GUI.DataAccess
             foreach (var scomRule in scomRules)
             {
                 //don't include performance collection rules as they can't raise alerts
-                if (scomRule.Category == ManagementPackCategoryType.PerformanceCollection)
-                {
-                    continue;
-                }
+                //if (scomRule.Category == ManagementPackCategoryType.PerformanceCollection)
+                //{
+                //    continue;
+                //}
 
                 //get management pack
                 var mp = scomRule.GetManagementPack();
@@ -157,10 +157,10 @@ namespace SCOM_CFU_GUI.DataAccess
             foreach (var scomMonitor in scomMonitors)
             {
                 //don't include performance collection monitors as they can't raise alerts
-                if (scomMonitor.Category == ManagementPackCategoryType.PerformanceCollection)
-                {
-                    continue;
-                }
+                //if (scomMonitor.Category == ManagementPackCategoryType.PerformanceCollection)
+                //{
+                //    continue;
+                //}
 
                 //get management pack
                 var mp = scomMonitor.GetManagementPack();

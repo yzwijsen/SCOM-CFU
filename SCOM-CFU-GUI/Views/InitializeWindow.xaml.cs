@@ -30,6 +30,7 @@ namespace SCOM_CFU_GUI.Views
 
             var vm = Application.Current.Resources["mainViewModel"] as MainViewModel;
             vm.DataInitCompleted += async (s, e) => await CloseWindowDelayed();
+            
         }
 
         async Task CloseWindowDelayed()
