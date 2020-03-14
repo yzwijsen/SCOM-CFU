@@ -2,8 +2,8 @@
 {
     public enum ConfigurationTargetType
     {
-        ManagementPack,
-        Target,
-        Workflow
+        ManagementPack = 0,
+        Target = 1,
+        Workflow = 2
     }
 }

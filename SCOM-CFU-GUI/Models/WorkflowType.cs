@@ -2,7 +2,7 @@
 {
     public enum WorkflowType
     {
-        Rule,
-        Monitor
+        Rule = 0,
+        Monitor = 1
     }
 }
