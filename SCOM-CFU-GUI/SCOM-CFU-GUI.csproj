@@ -73,6 +73,7 @@
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="DataAccess\ScomSDKDataRepository.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\ConfigurationTypeToIconConverter.cs" />
     <Compile Include="Views\StringNullToBoolConverter.cs" />
     <Compile Include="Views\StringNullToIconConverter.cs" />
     <Page Include="Views\InitializeWindow.xaml">
@@ -141,6 +142,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\cross-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\box24.png" />
+    <Resource Include="Icons\system-monitor24.png" />
+    <Resource Include="Icons\target24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

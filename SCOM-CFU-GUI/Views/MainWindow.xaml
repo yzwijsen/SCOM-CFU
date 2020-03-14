@@ -11,6 +11,7 @@
 	<Window.Resources>
 		<local:StringNullToBoolConverter x:Key="stringNullToBoolConverter"/>
 		<local:StringNullToIconConverter x:Key="stringNullToIconConverter"/>
+		<local:ConfigurationTypeToIconConverter x:Key="configTypeToIconConverter"/>
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -37,13 +38,13 @@
 								<TreeView.Resources>
 									<HierarchicalDataTemplate DataType="{x:Type m:ScomMP}" ItemsSource="{Binding ScomTargets}">
 										<StackPanel x:Name="targetStack" Orientation="Horizontal" MouseUp="targetStack_MouseUp">
-											<Image Source="/SCOM-CFU-GUI;component/Icons/box.png" Margin="0,0,5,0"/>
+											<Image Source="/SCOM-CFU-GUI;component/Icons/box.png" Margin="0,0,5,0" Width="16" Height="16"/>
 											<TextBlock Text="{Binding Name}"/>
 										</StackPanel>
 									</HierarchicalDataTemplate>
 									<DataTemplate DataType="{x:Type m:ScomTarget}">
 										<StackPanel x:Name="mpStack" Orientation="Horizontal" MouseUp="mpStack_MouseUp">
-											<Image Source="/SCOM-CFU-GUI;component/Icons/target.png" Margin="0,0,5,0"/>
+											<Image Source="/SCOM-CFU-GUI;component/Icons/target.png" Margin="0,0,5,0" Width="16" Height="16"/>
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
 									</DataTemplate>
@@ -75,16 +76,20 @@
 									<RowDefinition Height="50"/>
 									<RowDefinition Height="*"/>
 								</Grid.RowDefinitions>
-								<StackPanel Orientation="Vertical" Grid.ColumnSpan="3" Margin="5">
-									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="Selected Item:" FontWeight="Bold" Margin="0,0,10,0"/>
-										<TextBlock Text="{Binding SelectedConfigTarget.Name}"/>
-									</StackPanel>
-									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="Type:" FontWeight="Bold" Margin="0,0,10,0"/>
-										<TextBlock Text="{Binding SelectedConfigTarget.ConfigTargetType}"/>
+								<StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" Margin="5">
+									<Image Margin="5,0,10,5" Source="{Binding SelectedConfigTarget.ConfigTargetType, Converter={StaticResource configTypeToIconConverter}}"/>
+									<StackPanel Orientation="Vertical" >
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="Selected Item:" FontWeight="Bold" Margin="0,0,10,0"/>
+											<TextBlock Text="{Binding SelectedConfigTarget.Name}"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="Type:" FontWeight="Bold" Margin="0,0,10,0"/>
+											<TextBlock Text="{Binding SelectedConfigTarget.ConfigTargetType}"/>
+										</StackPanel>
 									</StackPanel>
 								</StackPanel>
+								
 								<GroupBox Header="Rules" Grid.Row="1">
 									<ListView>
 
