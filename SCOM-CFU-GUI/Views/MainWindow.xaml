@@ -102,7 +102,7 @@
 						</GroupBox>
 					</Grid>
 				</TabItem>
-				<TabItem Header="CF Data Sets">
+				<TabItem Header="CF Data Sets" DataContext="{StaticResource mainViewModel}">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"/>
@@ -112,9 +112,24 @@
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						<GroupBox Header="Stored Sets">
-							<ListBox>
-
-							</ListBox>
+							<ListView ItemsSource="{Binding Datasets}">
+								<ListView.View>
+									<GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Datasets">
+										<GridView.Columns>
+											<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+											<GridViewColumn Header="CF1" DisplayMemberBinding="{Binding Cf1}"/>
+											<GridViewColumn Header="CF2" DisplayMemberBinding="{Binding Cf2}"/>
+											<GridViewColumn Header="CF3" DisplayMemberBinding="{Binding Cf3}"/>
+											<GridViewColumn Header="CF4" DisplayMemberBinding="{Binding Cf4}"/>
+											<GridViewColumn Header="CF5" DisplayMemberBinding="{Binding Cf5}"/>
+											<GridViewColumn Header="CF6" DisplayMemberBinding="{Binding Cf6}"/>
+											<GridViewColumn Header="CF7" DisplayMemberBinding="{Binding Cf7}"/>
+											<GridViewColumn Header="CF8" DisplayMemberBinding="{Binding Cf8}"/>
+											<GridViewColumn Header="CF9" DisplayMemberBinding="{Binding Cf9}"/>
+										</GridView.Columns>
+									</GridView>
+								</ListView.View>
+							</ListView>
 						</GroupBox>
 						<GroupBox Header="CustomField Data" Grid.Column="1">
 							<Grid>

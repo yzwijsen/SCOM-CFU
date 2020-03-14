@@ -13,8 +13,20 @@ namespace SCOM_CFU_GUI.ViewModels
     {
         
         private IScomDataRepository scomDataRepo;
+        private IConfigurationDataRepository configDataRepo;
 
         #region Properties
+
+        private ObservableCollection<CustomFieldDataSet> datasets;
+        public ObservableCollection<CustomFieldDataSet> Datasets
+        {
+            get { return datasets; }
+            set
+            {
+                datasets = value;
+                OnPropertyChanged(nameof(Datasets));
+            }
+        }
 
         private IConfigurationTarget selectedConfigTarget;
         public IConfigurationTarget SelectedConfigTarget
@@ -166,6 +178,7 @@ namespace SCOM_CFU_GUI.ViewModels
 
             //set scom data repo
             scomDataRepo = SelectScomDataRepository(ScomHostname);
+            configDataRepo = new ConfigurationSQLiteDataRepository();
 
             InitStatus = $"Connecting to {ScomHostname}...";
             var connected = await scomDataRepo.ConnectToScomAsync(ScomHostname);
@@ -185,6 +198,8 @@ namespace SCOM_CFU_GUI.ViewModels
 
             InitStatus = "Getting SCOM Workflows...";
             ScomMPs = new ObservableCollection<ScomMP>(await scomDataRepo.GetScomManagementPacksAsync());
+
+            Datasets = new ObservableCollection<CustomFieldDataSet>(configDataRepo.GetCustomFieldDataSets());
 
             InitStatus = "Finished";
             IsInitActionInProgress = false;
