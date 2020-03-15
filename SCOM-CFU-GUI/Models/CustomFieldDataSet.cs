@@ -19,5 +19,6 @@ namespace SCOM_CFU_GUI.Models
         public string Cf7 { get; set; }
         public string Cf8 { get; set; }
         public string Cf9 { get; set; }
+        public string Cf10 { get; set; }
     }
 }
