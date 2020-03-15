@@ -90,7 +90,7 @@ namespace SCOM_CFU_GUI.DataAccess
 
         public string GetScomManagementGroupInfo()
         {
-            return $"Loaded {workflowCount} workflows from 2 Management Packs";
+            return $"Loaded 6 workflows from 3 Management Packs";
         }
         public string GetScomManagementGroupName()
         {
