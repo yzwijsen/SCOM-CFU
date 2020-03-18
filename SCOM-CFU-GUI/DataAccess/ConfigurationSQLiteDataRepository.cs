@@ -25,7 +25,17 @@ namespace SCOM_CFU_GUI.DataAccess
 
         public List<CustomFieldRule> GetCustomFieldRules(Guid targetId)
         {
-            throw new NotImplementedException();
+            using (IDbConnection cn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cn.Open();
+                var result = cn.Query<CustomFieldRule>("select * from Rules", new DynamicParameters());
+                return result.ToList();
+
+                //var parameters = new { TargetId = targetId.ToString() };
+                //var sql = "select * from Rules where targetId = @TargetId";
+                //var result = cn.Query<CustomFieldRule>(sql, parameters);
+                //return result.ToList();
+            }
         }
 
         public void SaveDataset(CustomFieldDataSet dataset)

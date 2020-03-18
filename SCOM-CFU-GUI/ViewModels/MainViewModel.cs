@@ -17,6 +17,17 @@ namespace SCOM_CFU_GUI.ViewModels
 
         #region Properties
 
+        private ObservableCollection<CustomFieldRule> rules;
+        public ObservableCollection<CustomFieldRule> Rules
+        {
+            get { return rules; }
+            set
+            {
+                rules = value;
+                OnPropertyChanged(nameof(Rules));
+            }
+        }
+
         private ObservableCollection<CustomFieldDataSet> datasets;
         public ObservableCollection<CustomFieldDataSet> Datasets
         {
@@ -37,6 +48,8 @@ namespace SCOM_CFU_GUI.ViewModels
                 if (selectedConfigTarget != value)
                 {
                     selectedConfigTarget = value;
+                    //update list of rules
+                    GetConfigTargetRules();
                     OnPropertyChanged(nameof(SelectedConfigTarget));
                 }
             }
@@ -209,6 +222,16 @@ namespace SCOM_CFU_GUI.ViewModels
 
             //Collect management group info and update property
             ScomManagementGroupInfo = scomDataRepo.GetScomManagementGroupInfo();
+        }
+
+        private void GetConfigTargetRules()
+        {
+            if (SelectedConfigTarget == null)
+            {
+                return;
+            }
+
+            Rules = new ObservableCollection<CustomFieldRule>(configDataRepo.GetCustomFieldRules(SelectedConfigTarget.Id));
         }
 
         private IScomDataRepository SelectScomDataRepository(string hostname)

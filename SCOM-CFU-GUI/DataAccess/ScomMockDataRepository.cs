@@ -8,8 +8,6 @@ namespace SCOM_CFU_GUI.DataAccess
 {
     class ScomMockDataRepository : IScomDataRepository
     {
-        private int workflowCount;
-
         public async Task<bool> ConnectToScomAsync(string hostname)
         {
             await Task.Delay(1000);

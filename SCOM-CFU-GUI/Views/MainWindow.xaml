@@ -89,10 +89,15 @@
 										</StackPanel>
 									</StackPanel>
 								</StackPanel>
-								
 								<GroupBox Header="Rules" Grid.Row="1">
-									<ListView>
-
+									<ListView ItemsSource="{Binding Rules}">
+										<ListView.ItemTemplate>
+											<DataTemplate DataType="{x:Type m:CustomFieldRule}">
+												<StackPanel Orientation="Horizontal">
+													<TextBlock Text="{Binding DatasetId}"/>
+												</StackPanel>
+											</DataTemplate>
+										</ListView.ItemTemplate>
 									</ListView>
 								</GroupBox>
 								<GroupBox Header="Data" Grid.Row="1" Grid.Column="1">

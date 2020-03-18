@@ -10,6 +10,7 @@ namespace SCOM_CFU_GUI.Models
     {
         public int Id { get; set; }
         public Guid TargetId { get; set; }
+        public Guid MpId { get; set; }
         public ConfigurationTargetType TargetType { get; set; }
         public int DatasetId { get; set; }
         public Guid GroupId { get; set; }
