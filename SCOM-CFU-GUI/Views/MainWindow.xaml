@@ -94,7 +94,7 @@
 										<ListView.ItemTemplate>
 											<DataTemplate DataType="{x:Type m:CustomFieldRule}">
 												<StackPanel Orientation="Horizontal">
-													<TextBlock Text="{Binding DatasetId}"/>
+													<TextBlock Text="{Binding TargetId}"/>
 												</StackPanel>
 											</DataTemplate>
 										</ListView.ItemTemplate>
