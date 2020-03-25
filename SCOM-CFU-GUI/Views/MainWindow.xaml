@@ -90,7 +90,7 @@
 									</StackPanel>
 								</StackPanel>
 								<GroupBox Header="Rules" Grid.Row="1">
-									<ListView ItemsSource="{Binding Rules}">
+									<ListView ItemsSource="{Binding Rules}" SelectedItem="{Binding SelectedRule}">
 										<ListView.ItemTemplate>
 											<DataTemplate DataType="{x:Type m:CustomFieldRule}">
 												<StackPanel Orientation="Horizontal">

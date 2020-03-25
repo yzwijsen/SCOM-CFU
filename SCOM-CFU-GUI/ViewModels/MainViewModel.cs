@@ -16,6 +16,19 @@ namespace SCOM_CFU_GUI.ViewModels
         private IConfigurationDataRepository configDataRepo;
 
         #region Properties
+        private CustomFieldRule selectedRule;
+        public CustomFieldRule SelectedRule
+        {
+            get { return selectedRule; }
+            set
+            {
+                if (selectedRule != value)
+                {
+                    selectedRule = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private ObservableCollection<CustomFieldRule> rules;
         public ObservableCollection<CustomFieldRule> Rules
@@ -24,7 +37,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 rules = value;
-                OnPropertyChanged(nameof(Rules));
+                OnPropertyChanged();
             }
         }
 
@@ -35,7 +48,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 datasets = value;
-                OnPropertyChanged(nameof(Datasets));
+                OnPropertyChanged();
             }
         }
 
@@ -50,7 +63,7 @@ namespace SCOM_CFU_GUI.ViewModels
                     selectedConfigTarget = value;
                     //update list of rules
                     GetConfigTargetRules();
-                    OnPropertyChanged(nameof(SelectedConfigTarget));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -62,7 +75,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 scomManagementGroupName = value;
-                OnPropertyChanged(nameof(ScomManagementGroupName));
+                OnPropertyChanged();
             }
         }
 
@@ -73,7 +86,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 scomManagementGroupInfo = value;
-                OnPropertyChanged(nameof(ScomManagementGroupInfo));
+                OnPropertyChanged();
             }
         }
 
@@ -84,7 +97,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 scomGroups = value;
-                OnPropertyChanged(nameof(ScomGroups));
+                OnPropertyChanged();
             }
         }
 
@@ -95,7 +108,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 scomMPs = value;
-                OnPropertyChanged(nameof(ScomMPs));
+                OnPropertyChanged();
             }
         }
 
@@ -109,7 +122,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 isInitActionInProgress = value;
-                OnPropertyChanged(nameof(IsInitActionInProgress));
+                OnPropertyChanged();
             }
         }
         private bool isConnectActionAvailable = true;
@@ -122,7 +135,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 isConnectActionAvailable = value;
-                OnPropertyChanged(nameof(IsConnectActionAvailable));
+                OnPropertyChanged();
             }
         }
 
@@ -136,7 +149,7 @@ namespace SCOM_CFU_GUI.ViewModels
             set
             {
                 initStatus = value;
-                OnPropertyChanged(nameof(InitStatus));
+                OnPropertyChanged();
             }
         }
 
@@ -152,7 +165,7 @@ namespace SCOM_CFU_GUI.ViewModels
             {
                 Properties.Settings.Default.scomHost = value;
                 Properties.Settings.Default.Save();
-                OnPropertyChanged(nameof(ScomHostname));
+                OnPropertyChanged();
             }
         }
         #endregion
